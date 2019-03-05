@@ -1,0 +1,7 @@
+{
+  "env": {
+    "MONGO_ALTAS_PW": "node-rest-shop",
+    "JWT_KEY": "secret",
+    "API_Link": "http://localhost:6009"
+  }
+}
