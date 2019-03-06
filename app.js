@@ -17,13 +17,14 @@ const selectedSectionQuestionRoutes = require("./api/routes/selectedSectionQuest
 const selectedCategoryQuestionRoutes = require("./api/routes/selectedCategoryQuestion");
 const filteredSectionQuestionRoutes = require("./api/routes/filteredSectionQuestion");
 const createTemplateRoutes = require("./api/routes/createTemplate");
+const path = require("path");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 var cookieParser = require("cookie-parser");
 var cors = require("cors");
 var session = require("express-session");
-
+app.use(express.static(path.join(__dirname, "HighPlumeClient-master/build")))
 app.use(cors());
 mongoose.Promise = global.Promise;
 mongoose
