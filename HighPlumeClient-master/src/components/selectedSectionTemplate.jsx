@@ -33,7 +33,7 @@ class categoryInfo extends Component {
     //showLoader();
 
     axios
-      .get("http://localhost:6005/createTemplate/getTemplateInfo")
+      .get("http://18.222.16.46/createTemplate/getTemplateInfo")
       .then(response => {
         console.log(response);
         catName = response.data.TemplateLocalData;
@@ -80,7 +80,7 @@ class categoryInfo extends Component {
     };
 
     axios
-      .post("http://localhost:6005/category/addCategoryInformation", userData1)
+      .post("http://18.222.16.46/category/addCategoryInformation", userData1)
       .then(response => {
         console.log(response);
         cat_id = response.data.categoryInformation._id;
@@ -114,7 +114,7 @@ class categoryInfo extends Component {
           };
 
           axios
-            .post("http://localhost:6005/createCategory/categoryInfo", userData)
+            .post("http://18.222.16.46/createCategory/categoryInfo", userData)
             .then(response => {
               console.log(response);
               this.props.history.push(`/selectedCategoryTemplate`);

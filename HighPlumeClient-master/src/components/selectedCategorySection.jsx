@@ -41,7 +41,7 @@ class selectedCategorySection extends Component {
       name: cat_name
     };
     axios
-      .get(" http://localhost:6005/category/getCategoryInformation", userData)
+      .get(" http://18.222.16.46/category/getCategoryInformation", userData)
       .then(response => {
         console.log(response);
         debugger;
@@ -65,7 +65,7 @@ class selectedCategorySection extends Component {
     debugger;
     //(" https://unionloanerserver.herokuapp.com/createCategory/getcategoryInfo")
     axios
-      .get(" http://localhost:6005/createcategory/getcategoryInfo", {
+      .get(" http://18.222.16.46/createcategory/getcategoryInfo", {
         params: {
           catI: catId
         }

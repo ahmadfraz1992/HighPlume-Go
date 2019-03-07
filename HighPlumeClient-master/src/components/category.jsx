@@ -22,7 +22,7 @@ class category extends Component {
     var divHtml = "";
 
     axios
-      .get("http://localhost:6005/category/getCategoryInformation")
+      .get("http://18.222.16.46/category/getCategoryInformation")
       .then(response => {
         console.log(response);
         categoryName = response.data.categoryLocalData;
@@ -58,7 +58,7 @@ class category extends Component {
     //   section_desc: this.state.section_desc
     // };
     // axios
-    //   .post("http://localhost:6005/createSection/createSection", userData)
+    //   .post("http://18.222.16.46/createSection/createSection", userData)
     //   .then(response => {
     //     console.log(response);
     //     this.props.history.push(`/sectionTemplate`);

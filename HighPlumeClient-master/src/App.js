@@ -60,33 +60,10 @@ class App extends Component {
             <Route exact path="/section" component={section} />
             <Route exact path="/category" component={category} />
             <Route exact path="/userTemplate" component={userTemplate} />
-            <Route
-              exact
-              path="/templateSelection"
-              component={templateSelection}
-            />
-            <Route
-              exact
-              path="/selectedCategorySection"
-              component={selectedCategorySection}
-            />
-            <Route
-              exact
-              path="/selectedCategorySectionQuestion"
-              component={selectedCategorySectionQuestion}
-            />
-            
-            
-            {/* <Route
-              exact
-              path="/selectedSectionTemplate"
-              component={selectedSectionTemplate}
-            /> */}
-            <Route
-              exact
-              path="/registerCustomer"
-              component={registerCustomer}
-            />
+            <Route exact path="/templateSelection" component={templateSelection} />
+            <Route exact path="/selectedCategorySection" component={selectedCategorySection} />
+            <Route exact path="/selectedCategorySectionQuestion" component={selectedCategorySectionQuestion} />
+            <Route exact path="/registerCustomer" component={registerCustomer}  />
             <Route exact path="/customerLogin" component={customerLogin} />
           </div>
         </div>

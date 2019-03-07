@@ -32,7 +32,7 @@ class createSection extends Component {
       section_desc: this.state.section_desc
     };
     axios
-      .post("http://localhost:6005/createSection/createSection", userData)
+      .post("http://18.222.16.46/createSection/createSection", userData)
       .then(response => {
         console.log(response);
         this.props.history.push(`/sectionTemplate`);

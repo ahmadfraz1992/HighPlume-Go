@@ -24,7 +24,7 @@ class addQuestions extends Component {
       question: this.state.question
     };
     axios
-      .post("http://localhost:5000/addQuestions/addQuestions", userData)
+      .post("http://18.222.16.46/addQuestions/addQuestions", userData)
       .then(response => {
         console.log(response);
       })
