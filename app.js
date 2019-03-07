@@ -25,6 +25,8 @@ var cookieParser = require("cookie-parser");
 var cors = require("cors");
 var session = require("express-session");
 
+const path = require("path");
+app.use(express.static(path.join(__dirname, "HighPlumeClient-master/build")));
 app.use(cors());
 mongoose.Promise = global.Promise;
 mongoose
