@@ -58,7 +58,7 @@ class Login extends Component {
     // console.log(userData);
 
     axios
-      .post("http://localhost:6005/userLogin/login", userData)
+      .post("http://18.222.16.46/userLogin/login", userData)
       .then(response => {
         debugger;
         console.log(response);
@@ -66,16 +66,14 @@ class Login extends Component {
         //data = response.data;
 
         //sessionStorage.setItem("userData", data);
- 
+
         sessionStorage.setItem("UserID", response.data.user[0]._id);
         sessionStorage.setItem("userEmail", response.data.user[0].email);
         sessionStorage.setItem(
           "startupResponse",
           response.data.startUpResponse
         );
-     
-     
-      
+
         sessionStorage.setItem("userType", response.data.user[0].type);
       })
       .catch(error => {
@@ -87,7 +85,7 @@ class Login extends Component {
       this.props.history.push(`/admin`);
     } else {
       axios
-        .post("http://localhost:6005/customerLogin/customerlogin", userData)
+        .post("http://18.222.16.46/customerLogin/customerlogin", userData)
         .then(response => {
           debugger;
           console.log(response);
