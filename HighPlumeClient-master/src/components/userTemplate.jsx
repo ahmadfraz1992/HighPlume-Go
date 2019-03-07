@@ -73,27 +73,36 @@ class userTemplate extends Component {
               sectionData = response.data.templateLocalData;
               //divHtml +=
               //" <div style={{ alignContent: 'center' }} id='reg1' class='container'>";
-              divHtml +=
-                "<label htmlFor='tab'><b><h2>" +
-                sectionData[i].section_name +
-                "</h2></b></label>";
-              for (var x = 0; x < sectionData.length; x++) {
-                divHtml += "<div class='input-group'> ";
+              for (var j = 0; j < userDataTemp.length; j++) {
+                divHtml += "<div class='card' >";
                 divHtml +=
-                  "<div class='input-group-text'> <span class='input-group-prepend' id='Q'" +
-                  x +
-                  "'>" +
-                  sectionData[x].q_desc +
-                  "</span> </div> ";
-                divHtml +=
-                  " <input type='text'  class='form-control'   onChange='{this.onChange}' name='textArea' id='" +
-                  x +
-                  "' >" +
-                  "</input></div>  ";
-                // divHtml += "</div>";
+                  "<div class='card-header' style='background:#56BB90' ><h2><b> " +
+                  userDataTemp[j].section_name +
+                  "</b></h2></div>";
+
+                for (var x = 0; x < sectionData.length; x++) {
+                  divHtml += "<div class='card-body'>";
+                  divHtml += "<div id='userTemp' class='input-group'> ";
+                  divHtml +=
+                    "<div   class='input-group-text'> <span  class='input-group-prepend' id='Q'" +
+                    x +
+                    "'>" +
+                    sectionData[x].q_desc +
+                    "</span> </div> ";
+                  divHtml +=
+                    " <input  type='text'  class='form-control'   onChange='{this.onChange}' name='textArea' id='" +
+                    x +
+                    "' >" +
+                    "</input></div>  ";
+                  divHtml += "</div>";
+                }
+
+                divHtml += "</div>";
+
+                document.getElementById("formReg").innerHTML = divHtml;
               }
-              document.getElementById("formReg").innerHTML = divHtml;
             })
+
             .catch(error => {
               console.log(error.response);
             });
