@@ -22,9 +22,7 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 var cookieParser = require("cookie-parser");
-const path = require("path");
 var cors = require("cors");
-
 var session = require("express-session");
 
 app.use(cors());
