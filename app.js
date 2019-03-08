@@ -24,7 +24,7 @@ const mongoose = require("mongoose");
 var cookieParser = require("cookie-parser");
 var cors = require("cors");
 var session = require("express-session");
-const path = require("path");
+//const path = require("path");
 //app.use(express.static(path.join(__dirname, "HighPlumeClient-master/build")));
 app.use(cors());
 mongoose.Promise = global.Promise;
@@ -58,7 +58,7 @@ app.use(bodyParser.json());
 //   //console.log(request);
 //   return response.sendStatus(404);
 // });
-app.get("*",express.static(path.join(__dirname, "HighPlumeClient-master/build")));
+//app.get("*",express.static(path.join(__dirname, "HighPlumeClient-master/build")));
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
