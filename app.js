@@ -17,14 +17,13 @@ const selectedSectionQuestionRoutes = require("./api/routes/selectedSectionQuest
 const selectedCategoryQuestionRoutes = require("./api/routes/selectedCategoryQuestion");
 const filteredSectionQuestionRoutes = require("./api/routes/filteredSectionQuestion");
 const createTemplateRoutes = require("./api/routes/createTemplate");
-
+// const sectionClient = require("./HighPlumeClient-master/src/components/section")
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 var cookieParser = require("cookie-parser");
 var cors = require("cors");
 var session = require("express-session");
-
 const path = require("path");
 app.use(express.static(path.join(__dirname, "HighPlumeClient-master/build")));
 app.use(cors());
@@ -37,6 +36,7 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
 const db = mongoose.connection;
+
 
 app.use(cookieParser());
 app.use(
@@ -83,6 +83,7 @@ app.use("/selectedSectionQuestion", selectedSectionQuestionRoutes);
 app.use("/selectedCategoryQuestion", selectedCategoryQuestionRoutes);
 app.use("/filteredSectionQuestion", filteredSectionQuestionRoutes);
 app.use("/createTemplate", createTemplateRoutes);
+// app.use("/section", sectionClient);
 app.use((req, res, next) => {
   const error = new Error("not Found in app.js line 46");
   error.status = 404;
