@@ -63,43 +63,45 @@ class Login extends Component {
         debugger;
         console.log(response);
         hideLoader();
-        //data = response.data;
-
-        //sessionStorage.setItem("userData", data);
 
         sessionStorage.setItem("UserID", response.data.user[0]._id);
         sessionStorage.setItem("userEmail", response.data.user[0].email);
-        sessionStorage.setItem(
-          "startupResponse",
-          response.data.startUpResponse
-        );
+        sessionStorage.setItem("startupResponse", response.data.startUpResponse);
+        
 
-        sessionStorage.setItem("userType", response.data.user[0].type);
+        var type = response.data.user[0].type;
+        if(type === "0"){
+          sessionStorage.setItem("userType", response.data.user[0].type);
+          this.props.history.push(`/admin`);
+        }else{
+          sessionStorage.setItem("userTempType", response.data.user[0].templatetype);
+          this.props.history.push(`/mainPage`);
+        }
       })
       .catch(error => {
         console.log(error.response);
       });
-    var email = "";
-    email = sessionStorage.getItem("userEmail");
-    if (email == this.state.email) {
-      this.props.history.push(`/admin`);
-    } else {
-      axios
-        .post("http://18.222.16.46/customerLogin/customerlogin", userData)
-        .then(response => {
-          debugger;
-          console.log(response);
-          sessionStorage.setItem(
-            "userTempType",
-            response.data.user[0].templatetype
-          );
-          hideLoader();
-          this.props.history.push(`/mainPage`);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    }
+    // var email = "";
+    // email = sessionStorage.getItem("userEmail");
+    // if (email == this.state.email) {
+    //   this.props.history.push(`/admin`);
+    // } else {
+    //   axios
+    //     .post("http://18.222.16.46/customerLogin/customerlogin", userData)
+    //     .then(response => {
+    //       debugger;
+    //       console.log(response);
+    //       sessionStorage.setItem(
+    //         "userTempType",
+    //         response.data.user[0].templatetype
+    //       );
+    //       hideLoader();
+    //       this.props.history.push(`/mainPage`);
+    //     })
+    //     .catch(error => {
+    //       console.log(error);
+    //     });
+    // }
 
     // console.log(response.data.startUpResponse);
     // this.props.history.push(`/apply4loan`);
