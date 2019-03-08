@@ -28,14 +28,11 @@ router.post("/createSection", (req, res, next) => {
     });
 });
 
-router.get("/getSectionInfo", (req, res, next) => {
-  var name = req.body.section_name;
-  //console.log(name);
+router.post("/getSectionInfo", (req, res, next) => {
   getSection
-    .find(name)
+    .find()
     .exec()
     .then(section => {
-      //console.log(getSection);
       return res.status(200).json({
         message: "successful",
         sectionLocalData: section

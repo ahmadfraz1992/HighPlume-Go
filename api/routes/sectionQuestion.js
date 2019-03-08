@@ -28,7 +28,7 @@ router.post("/addSectionInformation", (req, res, next) => {
     });
 });
 
-router.get("/getSectionInformation", (req, res, next) => {
+router.post("/getSectionInformation", (req, res, next) => {
   sectionTemplate
     .find()
     .exec()

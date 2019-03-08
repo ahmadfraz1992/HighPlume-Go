@@ -45,7 +45,7 @@ class sectionTemplate extends Component {
       section_name: section_name
     };
     axios
-      .get("http://18.222.16.46/createSection/getSectionInfo", userData)
+      .post("http://18.222.16.46/createSection/getSectionInfo")
       .then(response => {
         console.log(response);
         //section_id = response.data.sectionLocalData.section_id;

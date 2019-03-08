@@ -81,30 +81,6 @@ class Login extends Component {
       .catch(error => {
         console.log(error.response);
       });
-    // var email = "";
-    // email = sessionStorage.getItem("userEmail");
-    // if (email == this.state.email) {
-    //   this.props.history.push(`/admin`);
-    // } else {
-    //   axios
-    //     .post("http://18.222.16.46/customerLogin/customerlogin", userData)
-    //     .then(response => {
-    //       debugger;
-    //       console.log(response);
-    //       sessionStorage.setItem(
-    //         "userTempType",
-    //         response.data.user[0].templatetype
-    //       );
-    //       hideLoader();
-    //       this.props.history.push(`/mainPage`);
-    //     })
-    //     .catch(error => {
-    //       console.log(error);
-    //     });
-    // }
-
-    // console.log(response.data.startUpResponse);
-    // this.props.history.push(`/apply4loan`);
   }
 
   render() {

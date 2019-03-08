@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const Register = require("../models/customerRegister");
 
-router.get("/getCustomer", (req, res, next) => {
-  var email = req.body.email;
-  Register.find(email)
+router.post("/getCustomer", (req, res, next) => {
+  //var email = req.body.email;
+  Register.find()
     .exec()
     .then(customerData => {
       console.log(customerData);

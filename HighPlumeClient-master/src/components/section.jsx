@@ -22,7 +22,7 @@ class section extends Component {
     var divHtml = "";
 
     axios
-      .get("http://18.222.16.46/createSection/getSectionInfo")
+      .post("http://18.222.16.46/createSection/getSectionInfo")
       .then(response => {
         console.log(response);
         sectionName = response.data.sectionLocalData;
