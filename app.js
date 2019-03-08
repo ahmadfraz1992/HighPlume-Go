@@ -25,7 +25,7 @@ var cookieParser = require("cookie-parser");
 var cors = require("cors");
 var session = require("express-session");
 const path = require("path");
-app.use(express.static(path.join(__dirname, "HighPlumeClient-master/build")));
+//app.use(express.static(path.join(__dirname, "HighPlumeClient-master/build")));
 app.use(cors());
 mongoose.Promise = global.Promise;
 mongoose
@@ -53,7 +53,12 @@ app.use(
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
+// app.all('*', (request, response)=> {
+//   console.log('Returning a 404 from the catch-all route');
+//   //console.log(request);
+//   return response.sendStatus(404);
+// });
+app.get("*",express.static(path.join(__dirname, "HighPlumeClient-master/build")));
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
