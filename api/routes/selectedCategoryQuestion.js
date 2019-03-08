@@ -28,10 +28,10 @@ router.post("/addSelectedCategoryQuestion", (req, res, next) => {
     });
 });
 
-router.get("/getselectedCategoryQuestion", (req, res, next) => {
+router.post("/getselectedCategoryQuestion", (req, res, next) => {
   var catSection_id = req.body.catSection_id;
   selectedCategory
-    .find(catSection_id)
+    .find({catSection_id: catSection_id})
     .exec()
     .then(selectedCategoryData => {
       console.log(selectedCategoryData);

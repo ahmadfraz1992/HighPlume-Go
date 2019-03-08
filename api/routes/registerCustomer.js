@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const catType = require("../models/categoryInfo");
 const Register = require("../models/registerCustomer");
-router.get("/getCustomer", (req, res, next) => {
+
+router.post("/getCustomer", (req, res, next) => {
   var email = req.body.email;
   Register.find()
     .exec()
@@ -24,8 +25,7 @@ router.get("/getCustomer", (req, res, next) => {
     });
 });
 
-router.get("/getcatType", (req, res, next) => {
-  debugger;
+router.post("/getcatType", (req, res, next) => {
   catType
     .find()
     .exec()

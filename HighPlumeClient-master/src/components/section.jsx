@@ -47,21 +47,6 @@ class section extends Component {
   }
   onSubmit(e) {
     this.props.history.push(`/createSection`);
-
-    // const userData = {
-    //   section_name: this.state.section_name,
-
-    //   section_desc: this.state.section_desc
-    // };
-    // axios
-    //   .post("http://18.222.16.46/createSection/createSection", userData)
-    //   .then(response => {
-    //     console.log(response);
-    //     this.props.history.push(`/sectionTemplate`);
-    //   })
-    //   .catch(error => {
-    //     console.log(error.response);
-    //   });
   }
 
   render() {

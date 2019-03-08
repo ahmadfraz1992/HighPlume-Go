@@ -28,10 +28,10 @@ router.post("/addCategoryInformation", (req, res, next) => {
     });
 });
 
-router.get("/getCategoryInformation", (req, res, next) => {
-  var cat_name = req.query.name;
+router.post("/getCategoryInformation", (req, res, next) => {
+  //var cat_name = req.body.name;
   category
-    .find()
+    .find({cat_name: req.body.name})
     .exec()
     .then(categoryData => {
       console.log(categoryData);
@@ -48,7 +48,7 @@ router.get("/getCategoryInformation", (req, res, next) => {
     });
 });
 
-router.get("/getCategoryInformationWithoutPara", (req, res, next) => {
+router.post("/getCategoryInformationWithoutPara", (req, res, next) => {
   category
     .find()
     .exec()

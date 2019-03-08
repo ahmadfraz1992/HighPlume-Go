@@ -27,9 +27,9 @@ router.post("/categoryInfo", (req, res, next) => {
     });
 });
 
-router.get("/getcategoryInfo", (req, res, next) => {
+router.post("/getcategoryInfo", (req, res, next) => {
   //console.log(req.query.catI);
-  var catID = req.query.catI;
+  var catID = req.body.catI;
   categoryInfo
     .find({ cat_id: catID })
     .exec()
@@ -49,10 +49,8 @@ router.get("/getcategoryInfo", (req, res, next) => {
 });
 
 //Get information on template
-router.get("/getcategoryInfoTemplate", (req, res, next) => {
-  
-  var  Template_id=req.query.Template_id;
-  console.log(Template_id);
+router.post("/getcategoryInfoTemplate", (req, res, next) => {
+  var  Template_id=req.body.Template_id;
   categoryInfo
     .find({ cat_id: Template_id })
     .exec()
@@ -72,9 +70,9 @@ router.get("/getcategoryInfoTemplate", (req, res, next) => {
 });
 
 
-router.get("/getcategoryInfoWithParam", (req, res, next) => {
+router.post("/getcategoryInfoWithParam", (req, res, next) => {
   //console.log(req.query.catI);
-  var catID = req.query.cat_id;
+  var catID = req.body.cat_id;
   categoryInfo
     .find({ cat_id: catID })
     .exec()
@@ -93,9 +91,7 @@ router.get("/getcategoryInfoWithParam", (req, res, next) => {
     });
 });
 
-router.get("/getcategoryInfoWithoutPara", (req, res, next) => {
-  //console.log(req.query.catI);
-
+router.post("/getcategoryInfoWithoutPara", (req, res, next) => {
   categoryInfo
     .find()
     .exec()

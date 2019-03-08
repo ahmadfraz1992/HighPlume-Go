@@ -26,10 +26,10 @@ router.post("/addSectionInformation", (req, res, next) => {
     });
 });
 
-router.get("/getSectionInformation", (req, res, next) => {
+router.post("/getSectionInformation", (req, res, next) => {
   var section_name = req.body.section_name;
   section
-    .find(section_name)
+    .find({section_name: section_name})
     .exec()
     .then(sectionData => {
       console.log(sectionData);

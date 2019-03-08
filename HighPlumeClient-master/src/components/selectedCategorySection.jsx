@@ -41,7 +41,7 @@ class selectedCategorySection extends Component {
       name: cat_name
     };
     axios
-      .get(" http://18.222.16.46/category/getCategoryInformation", userData)
+      .post(" http://18.222.16.46/category/getCategoryInformation", userData)
       .then(response => {
         console.log(response);
         debugger;
@@ -59,17 +59,12 @@ class selectedCategorySection extends Component {
       });
 
     var divHtml = "";
-
-    //showLoader();
-
-    debugger;
+    const getCatI = {
+      catI: catId
+    };
     //(" https://unionloanerserver.herokuapp.com/createCategory/getcategoryInfo")
     axios
-      .get(" http://18.222.16.46/createcategory/getcategoryInfo", {
-        params: {
-          catI: catId
-        }
-      })
+      .post(" http://18.222.16.46/createcategory/getcategoryInfo", getCatI)
       .then(response => {
         debugger;
         console.log(response);

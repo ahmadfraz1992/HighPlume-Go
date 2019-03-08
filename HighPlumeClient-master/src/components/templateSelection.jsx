@@ -72,7 +72,7 @@ class templateSelection extends Component {
     const Template_id=checkedRowId.toString();
     parseInt(Template_id, 10);
     axios
-      .get("http://18.222.16.46/createCategory/getcategoryInfoTemplate", {
+      .post("http://18.222.16.46/createCategory/getcategoryInfoTemplate", {
         params: {
           Template_id: Template_id
         }
@@ -113,7 +113,7 @@ closeModal() {
     debugger;
     var categoryInfo = [];
     axios
-      .get("http://18.222.16.46/createcategory/getcategoryInfoWithoutPara")
+      .post("http://18.222.16.46/createcategory/getcategoryInfoWithoutPara")
       .then(response => {
         console.log(response);
         categoryInfo = response.data.categoryLocalData;
@@ -123,7 +123,7 @@ closeModal() {
       });
 
     axios
-      .get("http://18.222.16.46/category/getCategoryInformationWithoutPara")
+      .post("http://18.222.16.46/category/getCategoryInformationWithoutPara")
       .then(response => {
         console.log(response);
         var divHtml = "";
@@ -215,7 +215,7 @@ closeModal() {
     const Template_id=checkedRowId.toString();
     parseInt(Template_id, 10);
     axios
-      .get("http://18.222.16.46/createCategory/getcategoryInfoTemplate", {
+      .post("http://18.222.16.46/createCategory/getcategoryInfoTemplate", {
         params: {
           Template_id: Template_id
         }

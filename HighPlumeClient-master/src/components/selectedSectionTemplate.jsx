@@ -33,7 +33,7 @@ class categoryInfo extends Component {
     //showLoader();
 
     axios
-      .get("http://18.222.16.46/createTemplate/getTemplateInfo")
+      .post("http://18.222.16.46/createTemplate/getTemplateInfo")
       .then(response => {
         console.log(response);
         catName = response.data.TemplateLocalData;

@@ -33,7 +33,7 @@ class selectQuestions extends Component {
     debugger;
 
     axios
-      .get("http://localhost:3005/addQuestions/getQuestions")
+      .post("http://localhost:3005/addQuestions/getQuestions")
       .then(response => {
         //console.log(response);
         questions_from_db = response.data.questionsLocalData;
@@ -59,7 +59,7 @@ class selectQuestions extends Component {
       });
 
     axios
-      .get("http://localhost:3005/categoryInfo/getcategoryInfo")
+      .post("http://localhost:3005/categoryInfo/getcategoryInfo")
       .then(response => {
         console.log(response);
         cat_info_db = response.data.categoryLocalData;

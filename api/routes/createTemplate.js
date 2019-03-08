@@ -26,7 +26,7 @@ router.post("/createTemplate", (req, res, next) => {
     });
 });
 
-router.get("/getTemplateInfo", (req, res, next) => {
+router.post("/getTemplateInfo", (req, res, next) => {
   createTemplate
     .find()
     .exec()

@@ -28,10 +28,10 @@ router.post("/addSelectedSectionQuestion", (req, res, next) => {
     });
 });
 
-router.get("/getselectedSectionQuestion", (req, res, next) => {
+router.post("/getselectedSectionQuestion", (req, res, next) => {
   var section_id = req.query.section_id;
   selectedSectionQuestion
-    .find(section_id)
+    .find({section_id: section_id})
     .exec()
     .then(selectedSectionData => {
       console.log(selectedSectionData);

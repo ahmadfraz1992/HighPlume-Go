@@ -32,7 +32,7 @@ class userTemplate extends Component {
     var Template_id = sessionStorage.getItem("userTempType");
 
     axios
-      .get("http://18.222.16.46/createCategory/getcategoryInfoTemplate", {
+      .post("http://18.222.16.46/createCategory/getcategoryInfoTemplate", {
         params: {
           Template_id: Template_id
         }
@@ -46,7 +46,7 @@ class userTemplate extends Component {
         for (var i = 0; i < userDataTemp.length; i++) {
           var sec_ID = userDataTemp[i].section_id;
           axios
-            .get(
+            .post(
               "http://18.222.16.46/savedSectionQuestion/getSelectedQuestions",
               {
                 params: {

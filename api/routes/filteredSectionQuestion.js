@@ -30,8 +30,8 @@ router.post("/addFilteredSectionQuestion", (req, res, next) => {
     });
 });
 
-router.get("/getFilteredSectionQuestion", (req, res, next) => {
-  var cat_name = req.query.cat_name;
+router.post("/getFilteredSectionQuestion", (req, res, next) => {
+  var cat_name = req.body.cat_name;
   filteredSectionQuestion
     .find({ cat_name: cat_name })
     .exec()

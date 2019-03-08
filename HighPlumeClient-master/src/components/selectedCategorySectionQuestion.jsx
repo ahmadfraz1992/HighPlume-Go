@@ -44,7 +44,7 @@ class selectedCategorySectionQuestion extends Component {
     //this.setState({ cat_name: cat_name, section_name: section_name });
 
     axios
-      .get("http://18.222.16.46/savedSectionQuestion/getSelectedQuestions", {
+      .post("http://18.222.16.46/savedSectionQuestion/getSelectedQuestions", {
         params: {
           sec_ID: sec_ID
         }
@@ -86,7 +86,7 @@ class selectedCategorySectionQuestion extends Component {
     showLoader();
 
     axios
-      .get("http://18.222.16.46/category/getCategoryInformation", {
+      .post("http://18.222.16.46/category/getCategoryInformation", {
         params: {
           cat_name: cat_name
         }
@@ -138,26 +138,6 @@ class selectedCategorySectionQuestion extends Component {
       this.props.history.push(`/selectedCategorySection`);
     }
   }
-
-  // onSubmit1(e) {
-  //   const userData = {
-  //     question: this.state.question
-  //   };
-  //   showLoader();
-  //   axios
-  //     .post(
-  //       "http://18.222.16.46/sectionTemplate/addSectionInformation",
-  //       userData
-  //     )
-  //     .then(response => {
-  //       console.log(response);
-  //       this.props.history.push(`/sectionTemplate`);
-  //       hideLoader();
-  //     })
-  //     .catch(error => {
-  //       console.log(error.response);
-  //     });
-  // }
 
   render() {
     //goToTop();

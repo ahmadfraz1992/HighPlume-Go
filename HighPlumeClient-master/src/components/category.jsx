@@ -12,7 +12,6 @@ class category extends Component {
     };
 
     this.onSubmit = this.onSubmit.bind(this);
-    // this.onSubmit1 = this.onSubmit1.bind(this);
     this.onChange = this.onChange.bind(this);
   }
   onChange(e) {
@@ -22,7 +21,7 @@ class category extends Component {
     var divHtml = "";
 
     axios
-      .get("http://18.222.16.46/category/getCategoryInformation")
+      .post("http://18.222.16.46/category/getCategoryInformationWithoutPara")
       .then(response => {
         console.log(response);
         categoryName = response.data.categoryLocalData;
@@ -47,25 +46,6 @@ class category extends Component {
   }
   onSubmit(e) {
     this.props.history.push(`/categoryInfo`);
-    // var sectionName = sessionStorage.setItem(
-    //   "section_name",
-    //   this.state.section_name
-    // );
-
-    // const userData = {
-    //   section_name: this.state.section_name,
-
-    //   section_desc: this.state.section_desc
-    // };
-    // axios
-    //   .post("http://18.222.16.46/createSection/createSection", userData)
-    //   .then(response => {
-    //     console.log(response);
-    //     this.props.history.push(`/sectionTemplate`);
-    //   })
-    //   .catch(error => {
-    //     console.log(error.response);
-    //   });
   }
 
   render() {
