@@ -105,7 +105,7 @@ class selectedCategorySection extends Component {
           catSection_name = uid;
           sessionStorage.setItem("catSection_name", uid);
           window.location.replace(
-            "http://localhost:3000/selectedCategorySectionQuestion"
+            "/selectedCategorySectionQuestion"
           );
         });
         // var MyFunction = this.onSubmit1();
