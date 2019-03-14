@@ -3,6 +3,8 @@ import "../startup.css";
 import Popup from "reactjs-popup";
 import axios from "axios";
 import $ from "jquery";
+import mul from "multiselect-two-sides";
+
 import { debug } from "util";
 var section_info_db = [];
 var questions_from_db = [];
@@ -33,10 +35,7 @@ class sectionTemplate extends Component {
   }
   componentDidMount() {
     $(function() {
-      $("#undo_redo").multiselect({
-        includeSelectAllOption: true,
-        maximumSelectionLength: 100
-      });
+      $("#undo_redo").multiselect();
     });
 
     section_name = sessionStorage.getItem("section_name");
@@ -169,7 +168,7 @@ class sectionTemplate extends Component {
           <ul>
             <li>
               <a href="/admin" style={{ marginTop: "30%" }}>
-                <i class="fas fa-home fa-2x" />
+                <i className="fas fa-home fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b> Home</b>
                 </span>
@@ -178,7 +177,7 @@ class sectionTemplate extends Component {
 
             <li style={{ marginTop: "10%" }}>
               <a href="/section">
-                <i class="fas fa-edit fa-2x" />
+                <i className="fas fa-edit fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b>Section</b>
                 </span>
@@ -186,7 +185,7 @@ class sectionTemplate extends Component {
             </li>
             <li className="has-subnav" style={{ marginTop: "10%" }}>
               <a href="/category">
-                <i class="fas fa-edit fa-2x" />
+                <i className="fas fa-edit fa-2x" />
                 <span className=" nav-text" style={{ color: "white" }}>
                   <b>Category</b>
                 </span>
@@ -194,7 +193,7 @@ class sectionTemplate extends Component {
             </li>
             <li className="dropdown has-subnav" style={{ marginTop: "10%" }}>
               <a href="/templateSelection">
-                <i class="fas fa-edit fa-2x" />
+                <i className="fas fa-edit fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b>Template</b>
                 </span>
@@ -203,7 +202,7 @@ class sectionTemplate extends Component {
 
             <li className="dropdown has-subnav" style={{ marginTop: "10%" }}>
               <a href="/registerCustomer">
-                <i class="fas fa-users fa-2x" />
+                <i className="fas fa-users fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b>Register User</b>
                 </span>
