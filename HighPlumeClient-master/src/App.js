@@ -24,6 +24,7 @@ import userTemplate from "./components/userTemplate";
 import selectedCategorySectionQuestion from "./components/selectedCategorySectionQuestion";
 import selectedCategorySection from "./components/selectedCategorySection";
 import templateSelection from "./components/templateSelection";
+import sectionEdit from "./components/sectionEdit";
 //import selectedSectionTemplate from "./components/selectedSectionTemplate";
 
 const particleOpt = {
@@ -60,11 +61,28 @@ class App extends Component {
             <Route exact path="/section" component={section} />
             <Route exact path="/category" component={category} />
             <Route exact path="/userTemplate" component={userTemplate} />
-            <Route exact path="/templateSelection" component={templateSelection} />
-            <Route exact path="/selectedCategorySection" component={selectedCategorySection} />
-            <Route exact path="/selectedCategorySectionQuestion" component={selectedCategorySectionQuestion} />
-            <Route exact path="/registerCustomer" component={registerCustomer}  />
+            <Route
+              exact
+              path="/templateSelection"
+              component={templateSelection}
+            />
+            <Route
+              exact
+              path="/selectedCategorySection"
+              component={selectedCategorySection}
+            />
+            <Route
+              exact
+              path="/selectedCategorySectionQuestion"
+              component={selectedCategorySectionQuestion}
+            />
+            <Route
+              exact
+              path="/registerCustomer"
+              component={registerCustomer}
+            />
             <Route exact path="/customerLogin" component={customerLogin} />
+            <Route exact path="/sectionEdit" component={sectionEdit} />
           </div>
         </div>
       </Router>
