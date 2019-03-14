@@ -46,4 +46,47 @@ router.post("/getSectionInfo", (req, res, next) => {
     });
 });
 
+router.post("/getSectionInformation", (req, res, next) => {
+  var section_name = req.body.section_name;
+  getSection
+    .find({ section_name: section_name })
+    .exec()
+    .then(sectionData => {
+      console.log(sectionData);
+      return res.status(200).json({
+        message: "successful",
+        sectionLocalData: sectionData
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+});
+
+router.post("/updateSectionData", (req, res, next) => {
+  var section_id = req.body.section_id;
+  const sectionData = {
+    section_name: req.body.section_name,
+    section_desc: req.body.section_desc
+  };
+  getSection
+    .update({ _id: section_id }, sectionData)
+    .exec()
+    .then(sectionData => {
+      console.log(sectionData);
+      return res.status(200).json({
+        message: "Section has been updated",
+        sectionLocalData: sectionData
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+});
 module.exports = router;
