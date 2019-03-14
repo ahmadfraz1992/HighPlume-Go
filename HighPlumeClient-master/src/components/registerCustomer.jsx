@@ -36,7 +36,8 @@ class registerCustomer extends Component {
     });
     debugger;
     axios
-      .get("http://18.222.16.46/category/getCategoryInformation")
+      axios
+      .post("http://18.222.16.46/category/getCategoryInformation")
       .then(response => {
         //console.log(response);
         catType_from_db = response.data.categoryLocalData;
