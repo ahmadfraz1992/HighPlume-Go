@@ -31,7 +31,7 @@ router.post("/addCategoryInformation", (req, res, next) => {
 router.post("/getCategoryInformation", (req, res, next) => {
   //var cat_name = req.body.name;
   category
-    .find({cat_name: req.body.name})
+    .find()
     .exec()
     .then(categoryData => {
       console.log(categoryData);
