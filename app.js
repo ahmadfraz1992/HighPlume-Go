@@ -27,9 +27,11 @@ var session = require("express-session");
 const path = require("path");
 app.use(express.static(path.join(__dirname, "HighPlumeClient-master/build")));
 
-app.get('*', (request, response) => { 
-  response.sendFile(path.join(__dirname, 'HighPlumeClient-master/build', 'index.html'));
- });
+app.get("*", (request, response) => {
+  response.sendFile(
+    path.join(__dirname, "HighPlumeClient-master/build", "index.html")
+  );
+});
 app.use(cors());
 mongoose.Promise = global.Promise;
 mongoose
@@ -40,7 +42,6 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
 const db = mongoose.connection;
-
 
 app.use(cookieParser());
 app.use(
