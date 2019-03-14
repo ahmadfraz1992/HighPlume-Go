@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../App.css";
-
+import $ from "jquery";
 import axios from "axios";
 var sectionName = [];
 class section extends Component {
@@ -35,11 +35,26 @@ class section extends Component {
           divHtml += "<th style='width:50%'>" + i + "</th>";
           divHtml +=
             "<td style='width:50%'>" + sectionName[i].section_name + "</td>";
+          divHtml +=
+            "<td style='width:50%'><a  class='btn' style='border:none' id='btn2'><i class='fas fa-edit'></i></a></td>";
           divHtml += "</tr>";
         }
         divHtml += "</tbody>";
 
         document.getElementById("table").innerHTML = divHtml;
+
+        $("#table tbody").on("click", "#btn2", function() {
+          debugger;
+          var rowIndex = $(this).closest("tr");
+          var uid = $.trim(
+            $(rowIndex)
+              .find("td:eq(0)")
+              .text()
+          );
+          console.log(uid);
+          sessionStorage.setItem("sectionName", uid);
+          window.location.replace("/sectionEdit");
+        });
       })
       .catch(error => {
         console.log(error.response);
@@ -58,7 +73,7 @@ class section extends Component {
           <ul>
             <li>
               <a href="/admin" style={{ marginTop: "30%" }}>
-                <i class="fas fa-home fa-2x" />
+                <i className="fas fa-home fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b> Home</b>
                 </span>
@@ -67,7 +82,7 @@ class section extends Component {
 
             <li style={{ marginTop: "10%" }}>
               <a href="/section">
-                <i class="fas fa-edit fa-2x" />
+                <i className="fas fa-edit fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b>Section</b>
                 </span>
@@ -75,7 +90,7 @@ class section extends Component {
             </li>
             <li className="has-subnav" style={{ marginTop: "10%" }}>
               <a href="/category">
-                <i class="fas fa-edit fa-2x" />
+                <i className="fas fa-edit fa-2x" />
                 <span className=" nav-text" style={{ color: "white" }}>
                   <b>Category</b>
                 </span>
@@ -83,7 +98,7 @@ class section extends Component {
             </li>
             <li className="dropdown has-subnav" style={{ marginTop: "10%" }}>
               <a href="/templateSelection">
-                <i class="fas fa-edit fa-2x" />
+                <i className="fas fa-edit fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b>Template</b>
                 </span>
@@ -92,7 +107,7 @@ class section extends Component {
 
             <li className="dropdown has-subnav" style={{ marginTop: "10%" }}>
               <a href="/registerCustomer">
-                <i class="fas fa-user-plus fa-2x" />
+                <i className="fas fa-user-plus fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b>Register User</b>
                 </span>
