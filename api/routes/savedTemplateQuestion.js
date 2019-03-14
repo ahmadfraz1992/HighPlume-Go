@@ -23,12 +23,12 @@ router.post("/savedTemplateQuestions", (req, res, next) => {
         message: "saved!"
       });
     });
-  savedTemplateData.insertMany(req.body.testUserData);
+  // savedTemplateData.insertMany(req.body.testUserData);
 });
 router.post("/getSectionInformationWithParams", (req, res, next) => {
-  var section_id = req.body.section_id;
-  section
-    .find({section_id:section_id})
+  var sec_ID = req.body.sec_ID;
+  templateQuestion
+    .find({ section_id: sec_ID })
     .exec()
     .then(sectionData => {
       //console.log(sectionData);
@@ -45,15 +45,36 @@ router.post("/getSectionInformationWithParams", (req, res, next) => {
     });
 });
 router.post("/getSelectedQuestions", (req, res, next) => {
-  var sec_ID = req.body.sec_ID;
+  var section_id = req.body.section_id;
   templateQuestion
-    .find({ section_id: sec_ID })
+    .find({ section_id: section_id })
     .exec()
     .then(questions => {
       //console.log(questions);
       return res.status(200).json({
         message: "successful",
         templateLocalData: questions
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+});
+
+router.post("/deleteSavedQuestion", (req, res, next) => {
+  var section_id = req.body.section_id;
+
+  templateQuestion
+    .deleteMany({ section_id: section_id })
+    .exec()
+    .then(sectionData => {
+      console.log(sectionData);
+      return res.status(200).json({
+        message: "Section Questions has been deleted",
+        sectionLocalData: sectionData
       });
     })
     .catch(err => {
