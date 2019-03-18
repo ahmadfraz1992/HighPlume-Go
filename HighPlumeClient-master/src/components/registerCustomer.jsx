@@ -204,7 +204,7 @@ class registerCustomer extends Component {
                     <option value="0">Admin</option>
                     <option value="1">Customer</option>
                   </select>
-                </div> */}
+                </div> 
 
                 <div className="form-group">
                   <select
