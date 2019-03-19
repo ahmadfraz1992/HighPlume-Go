@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "../startup.css";
 import $ from "jquery";
 import axios from "axios";
-import Modal from 'react-awesome-modal';
+import Modal from "react-awesome-modal";
 var cat_info_db = [];
 var questions_from_db = [];
 var userDataTemp = [];
@@ -19,13 +19,12 @@ class templateSelection extends Component {
   constructor() {
     super();
     this.state = {
-      visible : false
-  }
+      visible: false
+    };
     this.state = {
       questions: [],
       cat_name: "",
       question: ""
-     
     };
     // this.onSubmit = this.onSubmit.bind(this);
     // this.onSubmit1 = this.onSubmit1.bind(this);
@@ -35,41 +34,37 @@ class templateSelection extends Component {
     debugger;
     var secdivHtml = "";
     var checkedRows = [];
-    var checkedRowId =[];
+    var checkedRowId = [];
     $("#tbody tr").each(function() {
       if (
         $(this)
           .find("input")
           .is(":checked")
       ) {
-
-
         checkedRows.push(
           $(this)
             .find("td:eq(0)")
             .text()
         );
         console.log(checkedRows);
-     
       }
 
       if (
         $(this)
           .find("input")
           .is(":checked")
-      )
-     { checkedRowId.push(
-        $(this)
-          .find("th:eq(0)")
-          .text()
-      );
-      console.log(checkedRowId);
-    }
-
+      ) {
+        checkedRowId.push(
+          $(this)
+            .find("th:eq(0)")
+            .text()
+        );
+        console.log(checkedRowId);
+      }
     });
 
     debugger;
-    const Template_id=checkedRowId.toString();
+    const Template_id = checkedRowId.toString();
     parseInt(Template_id, 10);
     axios
       .post("http://18.222.16.46/createCategory/getcategoryInfoTemplate", {
@@ -81,26 +76,31 @@ class templateSelection extends Component {
         console.log(response);
         debugger;
         catDataTemp = response.data.categoryLocalData;
-        secdivHtml += "<h2 style='color:black;padding-top:10%' class=''>"+checkedRows.toString()+"</h2></br>";
+        secdivHtml +=
+          "<h2 style='color:black;padding-top:10%' class=''>" +
+          checkedRows.toString() +
+          "</h2></br>";
         for (var i = 0; i < catDataTemp.length; i++) {
-        secdivHtml += "<ul style='color:black;float:left' class='text-center'><li>"+catDataTemp[i].section_name+"</li><br/></ul>";
+          secdivHtml +=
+            "<ul style='color:black;float:left' class='text-center'><li>" +
+            catDataTemp[i].section_name +
+            "</li><br/></ul>";
         }
         document.getElementById("modalSection").innerHTML = secdivHtml;
-
       })
       .catch(error => {
         console.log(error.response);
       });
     this.setState({
-        visible : true
+      visible: true
     });
-}
+  }
 
-closeModal() {
+  closeModal() {
     this.setState({
-        visible : false
+      visible: false
     });
-}
+  }
   handleButtonClick(e) {
     debugger;
   }
@@ -119,7 +119,7 @@ closeModal() {
         categoryInfo = response.data.categoryLocalData;
       })
       .catch(err => {
-        console.log(err.response); 
+        console.log(err.response);
       });
 
     axios
@@ -148,7 +148,9 @@ closeModal() {
             "<th id='th3'  style='width:25%' >" + userDataTemp[i]._id + "</th>";
 
           divHtml +=
-            " <td   style='width:25%' value=>" + userDataTemp[i].cat_name + "</td>";
+            " <td   style='width:25%' value=>" +
+            userDataTemp[i].cat_name +
+            "</td>";
 
           divHtml +=
             "<td  style='width:25% '><input class='radio text-center' type='radio' id='radiobtn' style='display: inline-block;' name='radiobtn' value='' ></input></td>";
@@ -173,37 +175,33 @@ closeModal() {
   onSubmit() {
     debugger;
     var checkedRows = [];
-    var checkedRowId =[];
+    var checkedRowId = [];
     $("#tbody tr").each(function() {
       if (
         $(this)
           .find("input")
           .is(":checked")
       ) {
-
-
         checkedRows.push(
           $(this)
             .find("td:eq(0)")
             .text()
         );
         console.log(checkedRows);
-     
       }
 
       if (
         $(this)
           .find("input")
           .is(":checked")
-      )
-     { checkedRowId.push(
-        $(this)
-          .find("th:eq(0)")
-          .text()
-      );
-      console.log(checkedRowId);
-    }
-
+      ) {
+        checkedRowId.push(
+          $(this)
+            .find("th:eq(0)")
+            .text()
+        );
+        console.log(checkedRowId);
+      }
     });
 
     debugger;
@@ -212,7 +210,7 @@ closeModal() {
     //     //checkedRows: checkedRows[i],
     //     checkedRowId: checkedRowId[i]
     //   };
-    const Template_id=checkedRowId.toString();
+    const Template_id = checkedRowId.toString();
     parseInt(Template_id, 10);
     axios
       .post("http://18.222.16.46/createCategory/getcategoryInfoTemplate", {
@@ -225,13 +223,11 @@ closeModal() {
         //this.props.history.push(`/admin`);
         debugger;
         catDataTemp = response.data.categoryLocalData;
-
-
       })
       .catch(error => {
         console.log(error.response);
       });
-  }   
+  }
   onSubmit1(e) {}
 
   render() {
@@ -245,6 +241,15 @@ closeModal() {
                 <i class="fas fa-home fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b> Home</b>
+                </span>
+              </a>
+            </li>
+
+            <li>
+              <a href="/showQuestions" style={{ marginTop: "10%" }}>
+                <i class="fas fa-plus-square fa-2x" />
+                <span className="nav-text" style={{ color: "white" }}>
+                  <b> Add Questions</b>
                 </span>
               </a>
             </li>
@@ -266,7 +271,7 @@ closeModal() {
               </a>
             </li>
             <li className="dropdown has-subnav" style={{ marginTop: "10%" }}>
-              <a href="/templateselection">
+              <a href="/templateSelection">
                 <i class="fas fa-edit fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b>Template</b>
@@ -286,7 +291,7 @@ closeModal() {
 
           <ul className="logout">
             <li>
-              <a href="/login">
+              <a href="#">
                 <i className="fa fa-power-off fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b>Logout</b>
@@ -307,25 +312,32 @@ closeModal() {
           name="savebtn"
           className="btn btn-primary"
           onClick={() => this.openModal()}
-          
         >
           Show
         </button>
-     
-       <Modal visible={this.state.visible} width="300" height="250" effect="fadeInUp" onClickAway={() => this.closeModal()}>
-       <div className='col-md-12' id="modalSection">           
-          
-       </div>
-       <div className='col-md-12'>
-        <a className='btn btn-primary' type="button" href="javascript:void(0);" onClick={() => this.closeModal()}>Close</a>
-       </div>
-       </Modal>
-        </div>
+
+        <Modal
+          visible={this.state.visible}
+          width="300"
+          height="250"
+          effect="fadeInUp"
+          onClickAway={() => this.closeModal()}
+        >
+          <div className="col-md-12" id="modalSection" />
+          <div className="col-md-12">
+            <a
+              className="btn btn-primary"
+              type="button"
+              href="javascript:void(0);"
+              onClick={() => this.closeModal()}
+            >
+              Close
+            </a>
+          </div>
+        </Modal>
+      </div>
     );
-   
   }
 }
-
-
 
 export default templateSelection;
