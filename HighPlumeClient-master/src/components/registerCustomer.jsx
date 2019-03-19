@@ -193,7 +193,7 @@ class registerCustomer extends Component {
                   />
                 </div>
 
-                {/* <div className="form-group">
+                 <div className="form-group">
                   <select
                     className="form-control"
                     name="type"
