@@ -104,9 +104,7 @@ class selectedCategorySection extends Component {
           console.log(uid);
           catSection_name = uid;
           sessionStorage.setItem("catSection_name", uid);
-          window.location.replace(
-            "/selectedCategorySectionQuestion"
-          );
+          window.location.replace("/selectedCategorySectionQuestion");
         });
         // var MyFunction = this.onSubmit1();
         // el.addEventListener("click", MyFunction, false);
@@ -138,6 +136,15 @@ class selectedCategorySection extends Component {
                 <i class="fas fa-home fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b> Home</b>
+                </span>
+              </a>
+            </li>
+
+            <li>
+              <a href="/showQuestions" style={{ marginTop: "10%" }}>
+                <i class="fas fa-plus-square fa-2x" />
+                <span className="nav-text" style={{ color: "white" }}>
+                  <b> Add Questions</b>
                 </span>
               </a>
             </li>
@@ -188,7 +195,6 @@ class selectedCategorySection extends Component {
             </li>
           </ul>
         </nav>
-
         <div className="row col-md-12">
           <div className="input-group mb-3" style={{ marginTop: "8%" }}>
             <div className="input-group-prepend">

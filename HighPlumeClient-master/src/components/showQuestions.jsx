@@ -1,18 +1,25 @@
 import React, { Component } from "react";
-import "../App.css";
-import $ from "jquery";
+import "../startup.css";
+
 import axios from "axios";
-var sectionName = [];
-class section extends Component {
+import $ from "jquery";
+var data;
+var questions_from_db = "";
+function showLoader() {
+  $(".overlay").show();
+}
+function hideLoader() {
+  $(".overlay").hide();
+}
+class showQuestions extends Component {
   constructor() {
     super();
     this.state = {
-      section_name: "",
-      section_desc: ""
+      question: ""
     };
 
-    this.onSubmit = this.onSubmit.bind(this);
-    // this.onSubmit1 = this.onSubmit1.bind(this);
+    //this.onSubmit = this.onSubmit.bind(this);
+    this.onSubmit1 = this.onSubmit1.bind(this);
     this.onChange = this.onChange.bind(this);
   }
   onChange(e) {
@@ -20,25 +27,24 @@ class section extends Component {
   }
   componentDidMount() {
     var divHtml = "";
-
     axios
-      .post("http://18.222.16.46/createSection/getSectionInfo")
+      .post("http://18.222.16.46/sectionTemplate/getSectionInformation")
       .then(response => {
         console.log(response);
-        sectionName = response.data.sectionLocalData;
+        questions_from_db = response.data.templateLocalData;
         divHtml += "<thead  id='thead'>";
         divHtml += " <th style='width:50%' id=''>Row</th>";
-        divHtml += " <th style='width:50%'>Section Name</th>";
+        divHtml += " <th style='width:50%'>Questions</th>";
         divHtml += "</thead><tbody class=''>";
-        for (var i = 0; i < sectionName.length; i++) {
+        for (var i = 0; i < questions_from_db.length; i++) {
           divHtml += "<tr>";
           divHtml += "<th style='width:50%'>" + i + "</th>";
           divHtml +=
-            "<td style='width:50%' >" + sectionName[i].section_name + "</td>";
+            "<td style='width:50%'>" + questions_from_db[i].q_desc + "</td>";
           divHtml +=
-            "<td style='width:50%'><a   class='btn' style='border:none' id='btn2'><i class='fas fa-edit'></i></a></td>";
+            "<td style='width:50%'><a  class='btn' style='border:none' id='btn2'><i class='fas fa-edit'></i></a></td>";
           divHtml +=
-            "<td style='width:50%'><a  class='btn' style='border:none' id='btn3'><i class='fas fa-trash-alt'></i></a></td>";
+            "<td style='width:50%'><a  class='btn' style='border:none' id='btn3'><i class='fas fa-trash'></i></a></td>";
           divHtml += "</tr>";
         }
         divHtml += "</tbody>";
@@ -54,8 +60,8 @@ class section extends Component {
               .text()
           );
           console.log(uid);
-          sessionStorage.setItem("sectionName", uid);
-          window.location.replace("/sectionEdit");
+          sessionStorage.setItem("question_desc", uid);
+          window.location.replace("/editQuestion");
         });
 
         $("#table tbody").on("click", "#btn3", function() {
@@ -66,35 +72,32 @@ class section extends Component {
               .find("td:eq(0)")
               .text()
           );
-          var sec_id = "";
-          for (var i = 0; i < sectionName.length; i++) {
-            if (uid == sectionName[i].section_name) {
-              sec_id = sectionName[i]._id;
+          var q_id = "";
+          console.log(uid);
+          for (var i = 0; i < questions_from_db.length; i++) {
+            if (uid == questions_from_db[i].q_desc) {
+              q_id = questions_from_db[i]._id;
             }
           }
-          console.log(sec_id);
+          console.log(q_id);
 
           const tempData = {
-            _id: sec_id
+            q_id: q_id
           };
           axios
-            .post("http://18.222.16.46/createSection/deleteSection", tempData)
+            .post(
+              "http://18.222.16.46/sectionTemplate/getSectionInformation",
+              tempData
+            )
             .then(response => {
               console.log(response);
             })
             .catch(error => {
               console.log(error.response);
             });
-
-          var index = $(this)
-            .closest("tr")
-            .index();
-          console.log(uid);
-          console.log(index);
           rowIndex = $(this)
             .closest("tr")
             .remove();
-          //window.location.replace("/sectionEdit");
         });
       })
       .catch(error => {
@@ -102,19 +105,53 @@ class section extends Component {
       });
   }
   onSubmit(e) {
-    this.props.history.push(`/createSection`);
-  }
+    // const userData = {
+    //   question: this.state.question
 
+    // };
+    // axios
+    //   .post("http://18.222.16.46/sectionTemplate/addSectionInformation", userData)
+    //   .then(response => {
+    //     console.log(response);
+    //   })
+    //   .catch(error => {
+    //     console.log(error.response);
+    //   });
+    this.props.history.push(`/addQuestion`);
+  }
+  onSubmit1(e) {
+    const userData = {
+      question: this.state.question,
+      tooltip: this.state.tooltip
+    };
+
+    showLoader();
+    axios
+      .post(
+        "http://18.222.16.46/sectionTemplate/addSectionInformation",
+        userData
+      )
+      .then(response => {
+        debugger;
+        console.log(response);
+        // alert("Your Question has been successfully saved.");
+        window.location.reload();
+        //this.props.history.push(`/sectionTemplate`);
+        hideLoader();
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
+  }
   render() {
     //goToTop();
     return (
-      <div className="promos">
-        <h1>List Of All Sections</h1>
+      <div className="container">
         <nav className="main-menu">
           <ul>
             <li>
               <a href="/admin" style={{ marginTop: "30%" }}>
-                <i class="fas fa-home fa-2x" />
+                <i className="fas fa-home fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b> Home</b>
                 </span>
@@ -123,7 +160,7 @@ class section extends Component {
 
             <li>
               <a href="/showQuestions" style={{ marginTop: "10%" }}>
-                <i class="fas fa-plus-square fa-2x" />
+                <i className="fas fa-plus-square fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b> Add Questions</b>
                 </span>
@@ -132,7 +169,7 @@ class section extends Component {
 
             <li style={{ marginTop: "10%" }}>
               <a href="/section">
-                <i class="fas fa-edit fa-2x" />
+                <i className="fas fa-edit fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b>Section</b>
                 </span>
@@ -140,7 +177,7 @@ class section extends Component {
             </li>
             <li className="has-subnav" style={{ marginTop: "10%" }}>
               <a href="/category">
-                <i class="fas fa-edit fa-2x" />
+                <i className="fas fa-edit fa-2x" />
                 <span className=" nav-text" style={{ color: "white" }}>
                   <b>Category</b>
                 </span>
@@ -148,7 +185,7 @@ class section extends Component {
             </li>
             <li className="dropdown has-subnav" style={{ marginTop: "10%" }}>
               <a href="/templateSelection">
-                <i class="fas fa-edit fa-2x" />
+                <i className="fas fa-edit fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b>Template</b>
                 </span>
@@ -157,7 +194,7 @@ class section extends Component {
 
             <li className="dropdown has-subnav" style={{ marginTop: "10%" }}>
               <a href="/registerCustomer">
-                <i class="fas fa-user-plus fa-2x" />
+                <i className="fas fa-user-plus fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b>Register User</b>
                 </span>
@@ -176,10 +213,13 @@ class section extends Component {
             </li>
           </ul>
         </nav>
+        <h1 style={{ textAlign: "center", marginTop: "6%" }}>
+          General Questions
+        </h1>
         <table
           className="table table-light"
           id="table"
-          style={{ marginTop: "10%" }}
+          style={{ marginTop: "5%" }}
         />
         <button onClick={() => this.onSubmit()}>
           <img src="https://img.icons8.com/metro/26/000000/plus-math.png" />
@@ -189,4 +229,4 @@ class section extends Component {
   }
 }
 
-export default section;
+export default showQuestions;

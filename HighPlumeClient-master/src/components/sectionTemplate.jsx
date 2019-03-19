@@ -168,16 +168,25 @@ class sectionTemplate extends Component {
           <ul>
             <li>
               <a href="/admin" style={{ marginTop: "30%" }}>
-                <i className="fas fa-home fa-2x" />
+                <i class="fas fa-home fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b> Home</b>
                 </span>
               </a>
             </li>
 
+            <li>
+              <a href="/showQuestions" style={{ marginTop: "10%" }}>
+                <i class="fas fa-plus-square fa-2x" />
+                <span className="nav-text" style={{ color: "white" }}>
+                  <b> Add Questions</b>
+                </span>
+              </a>
+            </li>
+
             <li style={{ marginTop: "10%" }}>
               <a href="/section">
-                <i className="fas fa-edit fa-2x" />
+                <i class="fas fa-edit fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b>Section</b>
                 </span>
@@ -185,7 +194,7 @@ class sectionTemplate extends Component {
             </li>
             <li className="has-subnav" style={{ marginTop: "10%" }}>
               <a href="/category">
-                <i className="fas fa-edit fa-2x" />
+                <i class="fas fa-edit fa-2x" />
                 <span className=" nav-text" style={{ color: "white" }}>
                   <b>Category</b>
                 </span>
@@ -193,7 +202,7 @@ class sectionTemplate extends Component {
             </li>
             <li className="dropdown has-subnav" style={{ marginTop: "10%" }}>
               <a href="/templateSelection">
-                <i className="fas fa-edit fa-2x" />
+                <i class="fas fa-edit fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b>Template</b>
                 </span>
@@ -202,7 +211,7 @@ class sectionTemplate extends Component {
 
             <li className="dropdown has-subnav" style={{ marginTop: "10%" }}>
               <a href="/registerCustomer">
-                <i className="fas fa-users fa-2x" />
+                <i class="fas fa-user-plus fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b>Register User</b>
                 </span>

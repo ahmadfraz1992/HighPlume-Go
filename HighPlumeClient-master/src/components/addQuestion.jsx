@@ -4,65 +4,50 @@ import "../startup.css";
 import axios from "axios";
 import $ from "jquery";
 var data;
+var q_id;
+var questions_from_db = "";
 function showLoader() {
   $(".overlay").show();
 }
 function hideLoader() {
   $(".overlay").hide();
 }
-class addQuestions extends Component {
+class addQuestion extends Component {
   constructor() {
     super();
     this.state = {
-      question: ""
+      question_desc: "",
+      tooltip: ""
     };
 
-    //this.onSubmit = this.onSubmit.bind(this);
-    this.onSubmit1 = this.onSubmit1.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    //this.onSubmit1 = this.onSubmit1.bind(this);
     this.onChange = this.onChange.bind(this);
   }
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-
-  // onSubmit(e) {
-  //   const userData = {
-  //     question: this.state.question
-  //   };
-  //   axios
-  //     .post("http://18.222.16.46/addQuestions/addQuestions", userData)
-  //     .then(response => {
-  //       console.log(response);
-  //     })
-  //     .catch(error => {
-  //       console.log(error.response);
-  //     });
-  //   this.props.history.push(`/admin`);
-  // }
-  onSubmit1(e) {
+  componentDidMount() {}
+  onSubmit(e) {
     const userData = {
-      question: this.state.question,
-      tooltip: this.state.tooltip
+      q_id: q_id,
+      q_desc: this.state.question_desc,
+      Tooltip: this.state.tooltip
     };
-
-    showLoader();
     axios
       .post(
         "http://18.222.16.46/sectionTemplate/addSectionInformation",
         userData
       )
       .then(response => {
-        debugger;
         console.log(response);
-        // alert("Your Question has been successfully saved.");
-        window.location.reload();
-        //this.props.history.push(`/sectionTemplate`);
-        hideLoader();
       })
       .catch(error => {
         console.log(error.response);
       });
+    this.props.history.push(`/showQuestions`);
   }
+
   render() {
     //goToTop();
     return (
@@ -71,7 +56,7 @@ class addQuestions extends Component {
           <ul>
             <li>
               <a href="/admin" style={{ marginTop: "30%" }}>
-                <i class="fas fa-home fa-2x" />
+                <i className="fas fa-home fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b> Home</b>
                 </span>
@@ -80,7 +65,7 @@ class addQuestions extends Component {
 
             <li>
               <a href="/showQuestions" style={{ marginTop: "10%" }}>
-                <i class="fas fa-plus-square fa-2x" />
+                <i className="fas fa-plus-square fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b> Add Questions</b>
                 </span>
@@ -89,7 +74,7 @@ class addQuestions extends Component {
 
             <li style={{ marginTop: "10%" }}>
               <a href="/section">
-                <i class="fas fa-edit fa-2x" />
+                <i className="fas fa-edit fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b>Section</b>
                 </span>
@@ -97,7 +82,7 @@ class addQuestions extends Component {
             </li>
             <li className="has-subnav" style={{ marginTop: "10%" }}>
               <a href="/category">
-                <i class="fas fa-edit fa-2x" />
+                <i className="fas fa-edit fa-2x" />
                 <span className=" nav-text" style={{ color: "white" }}>
                   <b>Category</b>
                 </span>
@@ -105,7 +90,7 @@ class addQuestions extends Component {
             </li>
             <li className="dropdown has-subnav" style={{ marginTop: "10%" }}>
               <a href="/templateSelection">
-                <i class="fas fa-edit fa-2x" />
+                <i className="fas fa-edit fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b>Template</b>
                 </span>
@@ -114,7 +99,7 @@ class addQuestions extends Component {
 
             <li className="dropdown has-subnav" style={{ marginTop: "10%" }}>
               <a href="/registerCustomer">
-                <i class="fas fa-user-plus fa-2x" />
+                <i className="fas fa-user-plus fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b>Register User</b>
                 </span>
@@ -133,7 +118,7 @@ class addQuestions extends Component {
             </li>
           </ul>
         </nav>
-        <h1 style={{ textAlign: "center", marginTop: "10%" }}>Add Questions</h1>
+        <h1 style={{ textAlign: "center", marginTop: "6%" }}>Add Question</h1>
         <div className="row col-md-12">
           <div className="input-group mb-3" style={{ paddingTop: "10%" }}>
             <div className="input-group-prepend">
@@ -146,8 +131,8 @@ class addQuestions extends Component {
               className="form-control"
               aria-label="Default"
               aria-describedby="inputGroup-sizing-default"
-              name="question"
-              value={this.state.question}
+              name="question_desc"
+              value={this.state.question_desc}
               onChange={this.onChange}
             />
           </div>
@@ -181,4 +166,4 @@ class addQuestions extends Component {
   }
 }
 
-export default addQuestions;
+export default addQuestion;

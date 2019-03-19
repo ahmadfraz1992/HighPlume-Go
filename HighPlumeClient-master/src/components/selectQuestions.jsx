@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../startup.css";
-import "../multiselect.min.js";
+
 import $ from "jquery";
 
 import TextareaAutosize from "react-textarea-autosize";

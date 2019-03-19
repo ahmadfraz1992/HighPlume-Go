@@ -26,24 +26,24 @@ router.post("/addSectionInformation", (req, res, next) => {
     });
 });
 
-router.post("/getSectionInformation", (req, res, next) => {
-  var section_name = req.body.section_name;
-  section
-    .find({section_name: section_name})
-    .exec()
-    .then(sectionData => {
-      console.log(sectionData);
-      return res.status(200).json({
-        message: "successful",
-        sectionLocalData: sectionData
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: err
-      });
-    });
-});
+// router.post("/getSectionInformation", (req, res, next) => {
+//   var section_name = req.body.section_name;
+//   section
+//     .find({section_name: section_name})
+//     .exec()
+//     .then(sectionData => {
+//       console.log(sectionData);
+//       return res.status(200).json({
+//         message: "successful",
+//         sectionLocalData: sectionData
+//       });
+//     })
+//     .catch(err => {
+//       console.log(err);
+//       res.status(500).json({
+//         error: err
+//       });
+//     });
+// });
 
 module.exports = router;

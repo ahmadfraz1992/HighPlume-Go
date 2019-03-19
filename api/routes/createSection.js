@@ -89,4 +89,25 @@ router.post("/updateSectionData", (req, res, next) => {
       });
     });
 });
+
+router.post("/deleteSection", (req, res, next) => {
+  var section_id = req.body._id;
+
+  getSection
+    .deleteOne({ _id: section_id })
+    .exec()
+    .then(sectionData => {
+      console.log(sectionData);
+      return res.status(200).json({
+        message: "Section has been deleted",
+        sectionLocalData: sectionData
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+});
 module.exports = router;

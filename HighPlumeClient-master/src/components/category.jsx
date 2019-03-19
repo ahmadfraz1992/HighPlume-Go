@@ -64,6 +64,15 @@ class category extends Component {
               </a>
             </li>
 
+            <li>
+              <a href="/showQuestions" style={{ marginTop: "10%" }}>
+                <i class="fas fa-plus-square fa-2x" />
+                <span className="nav-text" style={{ color: "white" }}>
+                  <b> Add Questions</b>
+                </span>
+              </a>
+            </li>
+
             <li style={{ marginTop: "10%" }}>
               <a href="/section">
                 <i class="fas fa-edit fa-2x" />

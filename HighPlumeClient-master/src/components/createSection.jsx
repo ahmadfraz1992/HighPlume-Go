@@ -57,6 +57,15 @@ class createSection extends Component {
               </a>
             </li>
 
+            <li>
+              <a href="/showQuestions" style={{ marginTop: "10%" }}>
+                <i class="fas fa-plus-square fa-2x" />
+                <span className="nav-text" style={{ color: "white" }}>
+                  <b> Add Questions</b>
+                </span>
+              </a>
+            </li>
+
             <li style={{ marginTop: "10%" }}>
               <a href="/section">
                 <i class="fas fa-edit fa-2x" />
@@ -74,7 +83,7 @@ class createSection extends Component {
               </a>
             </li>
             <li className="dropdown has-subnav" style={{ marginTop: "10%" }}>
-              <a href="/admin">
+              <a href="/templateSelection">
                 <i class="fas fa-edit fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b>Template</b>
@@ -84,7 +93,7 @@ class createSection extends Component {
 
             <li className="dropdown has-subnav" style={{ marginTop: "10%" }}>
               <a href="/registerCustomer">
-                <i class="fas fa-users fa-2x" />
+                <i class="fas fa-user-plus fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
                   <b>Register User</b>
                 </span>
