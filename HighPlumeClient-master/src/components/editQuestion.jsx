@@ -30,59 +30,19 @@ class editQuestion extends Component {
   }
   componentDidMount() {
     var question = sessionStorage.getItem("question_desc");
+    this.setState({ question_desc: question });
     const userData = {
       q_desc: question
     };
     axios
-      .post("http://18.222.16.46/sectionTemplate/getQuestionId", userData)
+      .post("http://localhost:6005/sectionTemplate/getQuestionId", userData)
       .then(response => {
         debugger;
         console.log(response);
         //  this.setState({ tooltip: response.data.templateLocalData.tooltip });
-        q_id = response.data.templateLocalData.q_id;
-        tooltip = response.data.templateLocalData.tooltip;
-      })
-      .catch(error => {
-        console.log(error.response);
-      });
-    this.setState({ question_desc: question, tooltip: tooltip });
-    var divHtml = "";
-    axios
-      .post("http://18.222.16.46/sectionTemplate/getSectionInformation")
-      .then(response => {
-        console.log(response);
-        debugger;
-        questions_from_db = response.data.templateLocalData;
-
-        divHtml += "<thead  id='thead'>";
-        divHtml += " <th style='width:50%' id=''>Row</th>";
-        divHtml += " <th style='width:50%'>Questions</th>";
-        divHtml += "</thead><tbody class=''>";
-        for (var i = 0; i < questions_from_db.length; i++) {
-          divHtml += "<tr>";
-          divHtml += "<th style='width:50%'>" + i + "</th>";
-          divHtml +=
-            "<td style='width:50%'>" + questions_from_db[i].q_desc + "</td>";
-          divHtml +=
-            "<td style='width:50%'><a  class='btn' style='border:none' id='btn2'><i class='fas fa-edit'></i></a></td>";
-          divHtml += "</tr>";
-        }
-        divHtml += "</tbody>";
-
-        document.getElementById("table").innerHTML = divHtml;
-
-        $("#table tbody").on("click", "#btn2", function() {
-          debugger;
-          var rowIndex = $(this).closest("tr");
-          var uid = $.trim(
-            $(rowIndex)
-              .find("td:eq(0)")
-              .text()
-          );
-          console.log(uid);
-          sessionStorage.setItem("sectionName", uid);
-          window.location.replace("/sectionEdit");
-        });
+        q_id = response.data.templateLocalData[0]._id;
+        tooltip = response.data.templateLocalData[0].tooltip;
+        this.setState({ tooltip: tooltip });
       })
       .catch(error => {
         console.log(error.response);
@@ -95,7 +55,7 @@ class editQuestion extends Component {
       Tooltip: this.state.tooltip
     };
     axios
-      .post("http://18.222.16.46/sectionTemplate/updateQuestion", userData)
+      .post("http://localhost:6005/sectionTemplate/updateQuestion", userData)
       .then(response => {
         console.log(response);
       })
@@ -113,7 +73,7 @@ class editQuestion extends Component {
     showLoader();
     axios
       .post(
-        "http://18.222.16.46/sectionTemplate/addSectionInformation",
+        "http://localhost:6005/sectionTemplate/addSectionInformation",
         userData
       )
       .then(response => {
