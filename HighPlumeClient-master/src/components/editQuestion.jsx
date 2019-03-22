@@ -6,6 +6,7 @@ import $ from "jquery";
 var data;
 var q_id;
 var questions_from_db = "";
+var tooltip = "";
 function showLoader() {
   $(".overlay").show();
 }
@@ -35,21 +36,24 @@ class editQuestion extends Component {
     axios
       .post("http://18.222.16.46/sectionTemplate/getQuestionId", userData)
       .then(response => {
+        debugger;
         console.log(response);
-        // this.setState({ tooltip: response.data.templateLocalData.tooltip });
+        //  this.setState({ tooltip: response.data.templateLocalData.tooltip });
         q_id = response.data.templateLocalData.q_id;
+        tooltip = response.data.templateLocalData.tooltip;
       })
       .catch(error => {
         console.log(error.response);
       });
-    this.setState({ question_desc: question });
+    this.setState({ question_desc: question, tooltip: tooltip });
     var divHtml = "";
     axios
       .post("http://18.222.16.46/sectionTemplate/getSectionInformation")
       .then(response => {
         console.log(response);
+        debugger;
         questions_from_db = response.data.templateLocalData;
-        this.setState({ tooltip: response.data.templateLocalData.tooltip });
+
         divHtml += "<thead  id='thead'>";
         divHtml += " <th style='width:50%' id=''>Row</th>";
         divHtml += " <th style='width:50%'>Questions</th>";
