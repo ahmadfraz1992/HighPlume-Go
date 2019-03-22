@@ -79,27 +79,26 @@ class showQuestions extends Component {
           for (var i = 0; i < questions_from_db.length; i++) {
             if (uid == questions_from_db[i].q_desc) {
               q_id = questions_from_db[i]._id;
+              const tempData = {
+                q_id: q_id
+              };
+              axios
+                .post(
+                  "http://18.222.16.46/sectionTemplate/deleteQuestion",
+                  tempData
+                )
+                .then(response => {
+                  console.log(response);
+                })
+                .catch(error => {
+                  console.log(error.response);
+                });
+              rowIndex = $(this)
+                .closest("tr")
+                .remove();
             }
           }
           console.log(q_id);
-
-          const tempData = {
-            q_id: q_id
-          };
-          axios
-            .post(
-              "http://18.222.16.46/sectionTemplate/deleteQuestion",
-              tempData
-            )
-            .then(response => {
-              console.log(response);
-            })
-            .catch(error => {
-              console.log(error.response);
-            });
-          rowIndex = $(this)
-            .closest("tr")
-            .remove();
         });
       })
       .catch(error => {
