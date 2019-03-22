@@ -66,4 +66,24 @@ router.post("/getCategoryInformationWithoutPara", (req, res, next) => {
       });
     });
 });
+
+router.post("/getCategoryInformationWithPara", (req, res, next) => {
+  var cat_name = req.body.cat_name;
+  category
+    .find({ cat_name: cat_name })
+    .exec()
+    .then(categoryData => {
+      console.log(categoryData);
+      return res.status(200).json({
+        message: "successful",
+        categoryLocalData: categoryData
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+});
 module.exports = router;

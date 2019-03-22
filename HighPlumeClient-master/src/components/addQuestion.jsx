@@ -31,8 +31,8 @@ class addQuestion extends Component {
   onSubmit(e) {
     const userData = {
       q_id: q_id,
-      q_desc: this.state.question_desc,
-      Tooltip: this.state.tooltip
+      question: this.state.question_desc,
+      tooltip: this.state.tooltip
     };
     axios
       .post(

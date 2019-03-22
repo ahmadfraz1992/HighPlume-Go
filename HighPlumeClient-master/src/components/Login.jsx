@@ -66,15 +66,20 @@ class Login extends Component {
 
         sessionStorage.setItem("UserID", response.data.user[0]._id);
         sessionStorage.setItem("userEmail", response.data.user[0].email);
-        sessionStorage.setItem("startupResponse", response.data.startUpResponse);
-        
+        sessionStorage.setItem(
+          "startupResponse",
+          response.data.startUpResponse
+        );
 
         var type = response.data.user[0].type;
-        if(type === "0"){
+        if (type === "0") {
           sessionStorage.setItem("userType", response.data.user[0].type);
           this.props.history.push(`/admin`);
-        }else{
-          sessionStorage.setItem("userTempType", response.data.user[0].templatetype);
+        } else {
+          sessionStorage.setItem(
+            "userTempType",
+            response.data.user[0].templatetype
+          );
           this.props.history.push(`/mainPage`);
         }
       })

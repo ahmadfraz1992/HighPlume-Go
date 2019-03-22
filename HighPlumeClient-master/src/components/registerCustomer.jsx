@@ -12,7 +12,7 @@ class registerCustomer extends Component {
     this.state = {
       first_name: "",
       last_name: "",
-      type: "1",
+      type: "",
       templateType: "",
       companyName: "",
       address: "",
@@ -36,7 +36,6 @@ class registerCustomer extends Component {
     });
     debugger;
     axios
-      axios
       .post("http://18.222.16.46/category/getCategoryInformation")
       .then(response => {
         //console.log(response);
@@ -193,7 +192,7 @@ class registerCustomer extends Component {
                   />
                 </div>
 
-                 <div className="form-group">
+                <div className="form-group">
                   <select
                     className="form-control"
                     name="type"
@@ -204,7 +203,7 @@ class registerCustomer extends Component {
                     <option value="0">Admin</option>
                     <option value="1">Customer</option>
                   </select>
-                </div> 
+                </div>
 
                 <div className="form-group">
                   <select

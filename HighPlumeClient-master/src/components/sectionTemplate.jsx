@@ -122,8 +122,7 @@ class sectionTemplate extends Component {
         debugger;
         console.log(response.data);
         alert("Message");
-        window.location.href = "http://18.222.16.46/section";
-
+        window.location.href = "http://localhost:3000/section";
         hideLoader();
       })
       .catch(error => {

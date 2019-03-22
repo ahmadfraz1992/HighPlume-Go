@@ -33,7 +33,7 @@ class editQuestion extends Component {
       q_desc: question
     };
     axios
-      .post("http://localhost:6005/sectionTemplate/getQuestionId", userData)
+      .post("http://18.222.16.46/sectionTemplate/getQuestionId", userData)
       .then(response => {
         console.log(response);
         this.setState({ tooltip: response.data.templateLocalData.tooltip });

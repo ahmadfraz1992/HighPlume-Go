@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../App.css";
-
+import $ from "jquery";
 import axios from "axios";
 var categoryName = [];
 class category extends Component {
@@ -34,11 +34,28 @@ class category extends Component {
           divHtml += "<th style='width:50%'>" + i + "</th>";
           divHtml +=
             "<td style='width:50%'>" + categoryName[i].cat_name + "</td>";
+          divHtml +=
+            "<td style='width:50%'><a   class='btn' style='border:none' id='btn2'><i class='fas fa-edit'></i></a></td>";
+          divHtml +=
+            "<td style='width:50%'><a  class='btn' style='border:none' id='btn3'><i class='fas fa-trash-alt'></i></a></td>";
           divHtml += "</tr>";
         }
         divHtml += "</tbody>";
 
         document.getElementById("table").innerHTML = divHtml;
+
+        $("#table tbody").on("click", "#btn2", function() {
+          debugger;
+          var rowIndex = $(this).closest("tr");
+          var uid = $.trim(
+            $(rowIndex)
+              .find("td:eq(0)")
+              .text()
+          );
+          console.log(uid);
+          sessionStorage.setItem("category_name", uid);
+          window.location.replace("/editCategory");
+        });
       })
       .catch(error => {
         console.log(error.response);
@@ -122,7 +139,7 @@ class category extends Component {
         <table
           className="table table-light"
           id="table"
-          style={{ marginTop: "10%" }}
+          style={{ marginTop: "6%" }}
         />
         <button onClick={() => this.onSubmit()}>
           <img src="https://img.icons8.com/metro/26/000000/plus-math.png" />

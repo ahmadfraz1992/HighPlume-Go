@@ -3,32 +3,52 @@ import "../startup.css";
 
 import axios from "axios";
 import $ from "jquery";
+var data;
 var section_name = [];
 var section_id = [];
 var sectionName = [];
 var cat_id = "";
+var questions_from_db = "";
 function showLoader() {
   $(".overlay").show();
 }
 function hideLoader() {
   $(".overlay").hide();
 }
-class categoryInfo extends Component {
+class editCategory extends Component {
   constructor() {
     super();
     this.state = {
-      c_name: "",
-      c_type: ""
+      category_name: "",
+      category_type: ""
     };
 
-    this.onSubmit = this.onSubmit.bind(this);
-    // this.onSubmit1 = this.onSubmit1.bind(this);
+    //this.onSubmit = this.onSubmit.bind(this);
+    this.onSubmit1 = this.onSubmit1.bind(this);
     this.onChange = this.onChange.bind(this);
   }
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
   componentDidMount() {
+    var cat_name = sessionStorage.getItem("category_name");
+    console.log(cat_name);
+    this.setState({ category_name: cat_name });
+    const tempData = {
+      cat_name: cat_name
+    };
+    axios
+      .post(
+        "http://18.222.16.46/category/getCategoryInformationWithPara",
+        tempData
+      )
+      .then(response => {
+        console.log(response);
+        //cat_id = response.data.categoryLocalData.cat_id;
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
     var divHtml = "";
     //showLoader();
 
@@ -65,76 +85,36 @@ class categoryInfo extends Component {
         console.log(error.response);
       });
   }
-
-  onSubmit(e) {
-    debugger;
-    section_id = [];
-    section_name = [];
-    var index = 0;
-    var index1 = 0;
-    var checkedRows = [];
-    var checkedRowId = [];
-    sessionStorage.setItem("category", this.state.c_name);
-    const userData1 = {
-      name: this.state.c_name,
-      type: this.state.c_type
+  onSubmit(e) {}
+  onSubmit1(e) {
+    const userData = {
+      question: this.state.question,
+      tooltip: this.state.tooltip
     };
 
+    showLoader();
     axios
-      .post("http://18.222.16.46/category/addCategoryInformation", userData1)
+      .post(
+        "http://18.222.16.46/sectionTemplate/addSectionInformation",
+        userData
+      )
       .then(response => {
-        console.log(response);
-        cat_id = response.data.categoryInformation._id;
-        sessionStorage.setItem("catinfo_id", cat_id);
-        $("#tbody tr").each(function() {
-          if (
-            $(this)
-              .find("input")
-              .is(":checked")
-          ) {
-            checkedRows.push(
-              $(this)
-                .find("td:eq(1)")
-                .text()
-            );
-            console.log(checkedRows);
-            checkedRowId.push(
-              $(this)
-                .find("td:eq(0)")
-                .text()
-            );
-            console.log(checkedRowId);
-          }
-        });
         debugger;
-        for (var i = 0; i < checkedRows.length; i++) {
-          const userData = {
-            cat_id: cat_id,
-            checkedRows: checkedRows[i],
-            checkedRowId: checkedRowId[i]
-          };
-
-          axios
-            .post("http://18.222.16.46/createCategory/categoryInfo", userData)
-            .then(response => {
-              console.log(response);
-              this.props.history.push(`/selectedCategorySection`);
-            })
-            .catch(error => {
-              console.log(error.response);
-            });
-        }
+        console.log(response);
+        // alert("Your Question has been successfully saved.");
+        window.location.reload();
+        //this.props.history.push(`/sectionTemplate`);
+        hideLoader();
       })
       .catch(error => {
         console.log(error.response);
       });
   }
-
   render() {
     //goToTop();
     return (
       <div className="promos">
-        <h1>Create A New Category </h1>
+        <h1>Edit Category </h1>
         <div className="overlay">
           <div id="loading-img" />
         </div>
@@ -216,7 +196,7 @@ class categoryInfo extends Component {
               aria-label="Default"
               aria-describedby="inputGroup-sizing-default"
               name="c_name"
-              value={this.state.c_name}
+              value={this.state.category_name}
               onChange={this.onChange}
             />
             <div className="input-group mb-3" style={{ paddingTop: "3%" }}>
@@ -234,7 +214,7 @@ class categoryInfo extends Component {
                 aria-label="Default"
                 aria-describedby="inputGroup-sizing-default1"
                 name="c_type"
-                value={this.state.c_type}
+                value={this.state.category_type}
                 onChange={this.onChange}
               />
             </div>
@@ -259,4 +239,4 @@ class categoryInfo extends Component {
   }
 }
 
-export default categoryInfo;
+export default editCategory;

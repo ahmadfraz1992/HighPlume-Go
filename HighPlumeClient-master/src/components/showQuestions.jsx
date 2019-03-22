@@ -17,7 +17,7 @@ class showQuestions extends Component {
     this.state = {
       question: ""
     };
-
+    //setTimeout(window.location.reload.bind(window.location), 250);
     //this.onSubmit = this.onSubmit.bind(this);
     this.onSubmit1 = this.onSubmit1.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -26,6 +26,8 @@ class showQuestions extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
   componentDidMount() {
+    // window.location.reload(true);
+    //setTimeout(window.location.reload.bind(window.location), 250);
     var divHtml = "";
     axios
       .post("http://18.222.16.46/sectionTemplate/getSectionInformation")
@@ -44,7 +46,7 @@ class showQuestions extends Component {
           divHtml +=
             "<td style='width:50%'><a  class='btn' style='border:none' id='btn2'><i class='fas fa-edit'></i></a></td>";
           divHtml +=
-            "<td style='width:50%'><a  class='btn' style='border:none' id='btn3'><i class='fas fa-trash'></i></a></td>";
+            "<td style='width:50%'><a  class='btn' style='border:none' id='btn3'><i class='fas fa-trash-alt'></i></a></td>";
           divHtml += "</tr>";
         }
         divHtml += "</tbody>";
@@ -120,28 +122,7 @@ class showQuestions extends Component {
     this.props.history.push(`/addQuestion`);
   }
   onSubmit1(e) {
-    const userData = {
-      question: this.state.question,
-      tooltip: this.state.tooltip
-    };
-
-    showLoader();
-    axios
-      .post(
-        "http://18.222.16.46/sectionTemplate/addSectionInformation",
-        userData
-      )
-      .then(response => {
-        debugger;
-        console.log(response);
-        // alert("Your Question has been successfully saved.");
-        window.location.reload();
-        //this.props.history.push(`/sectionTemplate`);
-        hideLoader();
-      })
-      .catch(error => {
-        console.log(error.response);
-      });
+    //this.props.history.push(`/sectionTemplate`);
   }
   render() {
     //goToTop();
