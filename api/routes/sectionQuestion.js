@@ -95,7 +95,7 @@ router.post("/deleteQuestion", (req, res, next) => {
   var q_id = req.body.q_id;
 
   sectionTemplate
-    .deleteOne({ q_id: q_id })
+    .deleteOne({ _id: q_id })
     .then(templateData => {
       //console.log(sectionTemplateData);
       return res.status(200).json({
