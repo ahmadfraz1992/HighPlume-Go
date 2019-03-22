@@ -36,7 +36,7 @@ class editQuestion extends Component {
       .post("http://18.222.16.46/sectionTemplate/getQuestionId", userData)
       .then(response => {
         console.log(response);
-        this.setState({ tooltip: response.data.templateLocalData.tooltip });
+        // this.setState({ tooltip: response.data.templateLocalData.tooltip });
         q_id = response.data.templateLocalData.q_id;
       })
       .catch(error => {
@@ -49,6 +49,7 @@ class editQuestion extends Component {
       .then(response => {
         console.log(response);
         questions_from_db = response.data.templateLocalData;
+        this.setState({ tooltip: response.data.templateLocalData.tooltip });
         divHtml += "<thead  id='thead'>";
         divHtml += " <th style='width:50%' id=''>Row</th>";
         divHtml += " <th style='width:50%'>Questions</th>";
