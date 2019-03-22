@@ -88,7 +88,7 @@ class showQuestions extends Component {
           };
           axios
             .post(
-              "http://18.222.16.46/sectionTemplate/getSectionInformation",
+              "http://18.222.16.46/sectionTemplate/deleteQuestion",
               tempData
             )
             .then(response => {
