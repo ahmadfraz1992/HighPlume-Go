@@ -95,13 +95,14 @@ router.post("/deleteQuestion", (req, res, next) => {
   var q_id = req.body.q_id;
 
   sectionTemplate
-    .findOneAndDelete({ q_id: q_id })
+    .find({ q_id: q_id })
+    .remove()
     .exec()
-    .then(sectionTemplateData => {
+    .then(templateData => {
       //console.log(sectionTemplateData);
       return res.status(200).json({
         message: "Question is deleted",
-        templateLocalData: sectionTemplateData
+        templateLocalData: templateData
       });
     })
     .catch(err => {
