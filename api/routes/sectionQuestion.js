@@ -95,8 +95,7 @@ router.post("/deleteQuestion", (req, res, next) => {
   var q_id = req.body.q_id;
 
   sectionTemplate
-    .find({ q_id: q_id })
-    .remove()
+    .deleteOne({ q_id: "7" })
     .exec()
     .then(templateData => {
       //console.log(sectionTemplateData);
