@@ -15,6 +15,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.2",
+    "build": "^0.1.4",
     "classnames": "^2.2.6",
     "connect-mongo": "^2.0.2",
     "cookie-parser": "^1.4.3",
