@@ -30,8 +30,7 @@ router.post("/register", (req, res, next) => {
           message: "This email address already exists"
         });
       } else {
-        {
-          const register = new Register({
+        {const register = new Register({
             first_name: req.body.first_name,
             last_name: req.body.last_name,
             type: req.body.type,
@@ -44,14 +43,32 @@ router.post("/register", (req, res, next) => {
             email: req.body.email,
             password: req.body.password
           });
+          const loginUser = new User({
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            type: req.body.type,
+            email: req.body.email,
+            password: req.body.password
+          });
 
           register
             .save()
             .then(result => {
               console.log(result);
-              res.status(201).json({
-                message: "User created"
-              });
+              loginUser
+                .save()
+                .then(result => {
+                  console.log(result);
+                  res.status(201).json({
+                    message: "User created"
+                  });
+                })
+                .catch(err => {
+                  console.log(err);
+                  res.status(500).json({
+                    error: err
+                  });
+                });
             })
             .catch(err => {
               console.log(err);
