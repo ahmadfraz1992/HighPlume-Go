@@ -36,16 +36,13 @@ class registerCustomer extends Component {
     });
     debugger;
     axios
-      .post("http://18.222.16.46/category/getCategoryInformation")
+      .post("http://localhost:6005/category/getCategoryInformation")
       .then(response => {
-        //console.log(response);
         catType_from_db = response.data.categoryLocalData;
         console.log(catType_from_db);
         console.log(catType_from_db.length);
-        //index = questions_from_db.length;
         var q_Options =
           " <option defaultValue=''>---Select any value---</option>";
-        //console.log(index);
         debugger;
 
         for (var i = 0; i < catType_from_db.length; i++) {
@@ -56,8 +53,6 @@ class registerCustomer extends Component {
             "'>" +
             catType_from_db[i].cat_name +
             "   </option>";
-
-          // document.getElementById("undo_redo").innerHTML = q_Options;
         }
         document.getElementById("undo_redo").innerHTML = q_Options;
       })
@@ -69,10 +64,7 @@ class registerCustomer extends Component {
   onSubmit(e) {
     e.preventDefault();
     debugger;
-    //   $('select[name="catType"]').change(function(){
 
-    //     registerdescription=  $(this).text()
-    // });​
     var value1 = document.getElementById("undo_redo").value;
     debugger;
     const userData = {
@@ -90,7 +82,7 @@ class registerCustomer extends Component {
     };
 
     axios
-      .post("http://18.222.16.46/customerRegister/register", userData)
+      .post("http://localhost:6005/customerRegister/register", userData)
       .then(response => {
         console.log(response);
         this.props.history.push(`/login`);

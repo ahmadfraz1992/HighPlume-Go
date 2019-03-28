@@ -24,15 +24,6 @@ class Register extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    // axios
-    //   .get("user/register")
-    //   .then(function(response) {
-    //     console.log(response);
-    //   })
-    //   .catch(function(error) {
-    //     console.log(error);
-    //   });
-
     const userData = {
       first_name: this.state.first_name,
       last_name: this.state.last_name,
@@ -43,7 +34,7 @@ class Register extends Component {
     debugger;
     var divHtml = "";
     axios
-      .post("http://18.222.16.46/user/register", userData)
+      .post("http://localhost:6005/user/register", userData)
       .then(response => {
         console.log(response);
         this.props.history.push(`/login`);

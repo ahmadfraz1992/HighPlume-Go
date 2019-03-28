@@ -41,14 +41,14 @@ class selectedCategorySection extends Component {
       name: cat_name
     };
     axios
-      .post(" http://18.222.16.46/category/getCategoryInformation", userData)
+      .post(" http://localhost:6005/category/getCategoryInformation", userData)
       .then(response => {
         console.log(response);
         debugger;
         cat_info_db = response.data.categoryLocalData;
 
         for (var i = 0; i < cat_info_db.length; i++) {
-          if (cat_info_db[i].name == cat_name) {
+          if (cat_info_db[i].name === cat_name) {
             //this.setState({ cat_name: cat_name });
             cat_id = cat_info_db[i].cat_id;
           }
@@ -64,7 +64,7 @@ class selectedCategorySection extends Component {
     };
     //(" https://unionloanerserver.herokuapp.com/createCategory/getcategoryInfo")
     axios
-      .post(" http://18.222.16.46/createcategory/getcategoryInfo", getCatI)
+      .post(" http://localhost:6005/createcategory/getcategoryInfo", getCatI)
       .then(response => {
         debugger;
         console.log(response);
@@ -121,7 +121,6 @@ class selectedCategorySection extends Component {
   }
 
   render() {
-    //goToTop();
     return (
       <div className="promos">
         <h1>Create a New Category</h1>
@@ -144,7 +143,7 @@ class selectedCategorySection extends Component {
               <a href="/showQuestions" style={{ marginTop: "10%" }}>
                 <i class="fas fa-plus-square fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
-                  <b> Add Questions</b>
+                  <b> General Questions</b>
                 </span>
               </a>
             </li>

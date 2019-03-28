@@ -5,14 +5,8 @@ import axios from "axios";
 import $ from "jquery";
 var section_name = [];
 var section_id = [];
-var sectionName = [];
+var sectionData = [];
 var cat_id = "";
-function showLoader() {
-  $(".overlay").show();
-}
-function hideLoader() {
-  $(".overlay").hide();
-}
 class categoryInfo extends Component {
   constructor() {
     super();
@@ -22,7 +16,6 @@ class categoryInfo extends Component {
     };
 
     this.onSubmit = this.onSubmit.bind(this);
-    // this.onSubmit1 = this.onSubmit1.bind(this);
     this.onChange = this.onChange.bind(this);
   }
   onChange(e) {
@@ -30,35 +23,30 @@ class categoryInfo extends Component {
   }
   componentDidMount() {
     var divHtml = "";
-    //showLoader();
-
+    //Getting All Sections From Sections Collections and show them into table
     axios
-      .post("http://18.222.16.46/createSection/getSectionInfo")
+      .post("http://localhost:6005/createSection/getSectionInfo")
       .then(response => {
-        console.log(response);
-        sectionName = response.data.sectionLocalData;
+        sectionData = response.data.sectionLocalData;
         divHtml += "<thead  id='thead'>";
-        divHtml += " <th style='width:33%' id=''>Select</th>";
-        divHtml += " <th style='width:33%' id=''>Section_id</th>";
-        divHtml += " <th style='width:33%'>Section Name</th>";
+        divHtml += " <th style='width:10%' id=''>Select</th>";
+        divHtml += " <th style='width:10%' id=''>Section_id</th>";
+        divHtml += " <th style='width:80%'>Section Name</th>";
         divHtml += "</thead><tbody id='tbody'>";
-        for (var i = 0; i < sectionName.length; i++) {
+        for (var i = 0; i < sectionData.length; i++) {
           divHtml += "<tr>";
-          divHtml += "<th id='th3' style='width:33%' >";
-          // divHtml += "<label class='btn btn-success active'> ";
+          divHtml += "<th id='th3' style='width:10%' >";
           divHtml +=
             "<input  id='checkbox' class='form-check-input' type='checkbox' value=''></input>";
           divHtml += "</th>";
-          divHtml += "<td style='width:33%'>" + sectionName[i]._id + "</td>";
+          divHtml += "<td style='width:10%'>" + sectionData[i]._id + "</td>";
           divHtml +=
-            "<td style='width:33%'>" + sectionName[i].section_name + "</td>";
+            "<td style='width:80%'>" + sectionData[i].section_name + "</td>";
           divHtml += "</tr>";
         }
         divHtml += "</tbody>";
 
         document.getElementById("tableSection").innerHTML = divHtml;
-
-        // hideLoader();
       })
 
       .catch(error => {
@@ -75,17 +63,21 @@ class categoryInfo extends Component {
     var checkedRows = [];
     var checkedRowId = [];
     sessionStorage.setItem("category", this.state.c_name);
-    const userData1 = {
+    const categoryData1 = {
       name: this.state.c_name,
       type: this.state.c_type
     };
 
     axios
-      .post("http://18.222.16.46/category/addCategoryInformation", userData1)
+      .post(
+        "http://localhost:6005/category/addCategoryInformation",
+        categoryData1
+      )
       .then(response => {
         console.log(response);
         cat_id = response.data.categoryInformation._id;
         sessionStorage.setItem("catinfo_id", cat_id);
+
         $("#tbody tr").each(function() {
           if (
             $(this)
@@ -108,17 +100,20 @@ class categoryInfo extends Component {
         });
         debugger;
         for (var i = 0; i < checkedRows.length; i++) {
-          const userData = {
+          const categoryInfoData = {
             cat_id: cat_id,
             checkedRows: checkedRows[i],
             checkedRowId: checkedRowId[i]
           };
 
           axios
-            .post("http://18.222.16.46/createCategory/categoryInfo", userData)
+            .post(
+              "http://localhost:6005/categoryInfo/AddCategoryInfo",
+              categoryInfoData
+            )
             .then(response => {
               console.log(response);
-              this.props.history.push(`/selectedCategorySection`);
+              this.props.history.push(`/category`);
             })
             .catch(error => {
               console.log(error.response);
@@ -131,10 +126,11 @@ class categoryInfo extends Component {
   }
 
   render() {
-    //goToTop();
     return (
       <div className="promos">
-        <h1>Create A New Category </h1>
+        <h1 style={{ textAlign: "center", marginTop: "2%" }}>
+          Create A New Category
+        </h1>
         <div className="overlay">
           <div id="loading-img" />
         </div>
@@ -153,7 +149,7 @@ class categoryInfo extends Component {
               <a href="/showQuestions" style={{ marginTop: "10%" }}>
                 <i class="fas fa-plus-square fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
-                  <b> Add Questions</b>
+                  <b> General Questions</b>
                 </span>
               </a>
             </li>
@@ -242,7 +238,7 @@ class categoryInfo extends Component {
           <table
             className="table table-light"
             id="tableSection"
-            style={{ marginTop: "5%" }}
+            style={{ marginTop: "15px" }}
           />
         </div>
 

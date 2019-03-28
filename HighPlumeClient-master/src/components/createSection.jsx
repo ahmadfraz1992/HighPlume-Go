@@ -22,17 +22,17 @@ class createSection extends Component {
   onSubmit(e) {
     debugger;
     var sectionName = sessionStorage.setItem(
-      "section_name",
+      "sectionName",
       this.state.section_name
     );
 
-    const userData = {
+    const secData = {
       section_name: this.state.section_name,
 
       section_desc: this.state.section_desc
     };
     axios
-      .post("http://18.222.16.46/createSection/createSection", userData)
+      .post("http://localhost:6005/createSection/createSection", secData)
       .then(response => {
         console.log(response);
         this.props.history.push(`/sectionTemplate`);
@@ -43,7 +43,6 @@ class createSection extends Component {
   }
 
   render() {
-    //goToTop();
     return (
       <div className="promos">
         <nav className="main-menu">
@@ -61,7 +60,7 @@ class createSection extends Component {
               <a href="/showQuestions" style={{ marginTop: "10%" }}>
                 <i class="fas fa-plus-square fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
-                  <b> Add Questions</b>
+                  <b> General Questions</b>
                 </span>
               </a>
             </li>
@@ -112,9 +111,11 @@ class createSection extends Component {
             </li>
           </ul>
         </nav>
-        <h1 style={{ marginTop: "10%" }}>Create a Section</h1>
+        <h1 style={{ textAlign: "center", marginTop: "2%" }}>
+          Create a Section
+        </h1>
         <div className="row col-md-12">
-          <div className="input-group mb-3" style={{ paddingTop: "13%" }}>
+          <div className="input-group mb-3" style={{ paddingTop: "5%" }}>
             <div className="input-group-prepend">
               <span className="input-group-text">Section Name</span>
             </div>

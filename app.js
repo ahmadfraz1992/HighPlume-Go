@@ -1,22 +1,24 @@
 const express = require("express");
 const app = express();
 
-const registerRoutes = require("./api/routes/user");
-const loginRoutes = require("./api/routes/userLogin");
-const customerRoutes = require("./api/routes/customerLogin");
+const registerRoutes = require("./api/routes/userRoute");
+const loginRoutes = require("./api/routes/userLoginRoute");
+const customerRoutes = require("./api/routes/customerLoginRoute");
 
-const createCategoryRoutes = require("./api/routes/categoryInfo");
+const categoryInfoRoutes = require("./api/routes/categoryInfoRoute");
 
-const customerRegisterRoutes = require("./api/routes/customerRegister");
+const customerRegisterRoutes = require("./api/routes/customerRegisterRoute");
 
-const createSectionRoutes = require("./api/routes/createSection");
-const sectionTemplateRoutes = require("./api/routes/sectionQuestion");
-const savedSectionQuestionRoutes = require("./api/routes/savedTemplateQuestion");
-const categoryRoutes = require("./api/routes/category");
-const selectedSectionQuestionRoutes = require("./api/routes/selectedSectionQuestion");
-const selectedCategoryQuestionRoutes = require("./api/routes/selectedCategoryQuestion");
-const filteredSectionQuestionRoutes = require("./api/routes/filteredSectionQuestion");
-const createTemplateRoutes = require("./api/routes/createTemplate");
+const createSectionRoutes = require("./api/routes/createSectionRoute");
+const sectionTemplateRoutes = require("./api/routes/sectionQuestionRoute");
+const savedSectionQuestionRoutes = require("./api/routes/savedTemplateQuestionRoute");
+const categoryRoutes = require("./api/routes/categoryRoute");
+const selectedSectionQuestionRoutes = require("./api/routes/selectedSectionQuestionRoute");
+const selectedCategoryQuestionRoutes = require("./api/routes/selectedCategoryQuestionRoute");
+const filteredSectionQuestionRoutes = require("./api/routes/filteredSectionQuestionRoute");
+const createTemplateRoutes = require("./api/routes/createTemplateRoute");
+const creategeneralQuestionsRoute = require("./api/routes/createGeneralQuestionsRoute");
+const generalQuestionsRoute = require("./api/routes/generalQuestionsRoute");
 // const sectionClient = require("./HighPlumeClient-master/src/components/section")
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
@@ -36,12 +38,10 @@ app.use(cors());
 mongoose.Promise = global.Promise;
 mongoose
   .connect("mongodb://localhost:27017/admin", {
-    // useCreateIndex: true,
     useMongoClient: true
   })
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
-const db = mongoose.connection;
 
 app.use(cookieParser());
 app.use(
@@ -58,12 +58,6 @@ app.use(
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// app.all('*', (request, response)=> {
-//   console.log('Returning a 404 from the catch-all route');
-//   //console.log(request);
-//   return response.sendStatus(404);
-// });
-//app.get("*",express.static(path.join(__dirname, "HighPlumeClient-master/build")));
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -81,7 +75,7 @@ app.use("/user", registerRoutes);
 app.use("/userLogin", loginRoutes);
 app.use("/customerLogin", customerRoutes);
 
-app.use("/createCategory", createCategoryRoutes);
+app.use("/categoryInfo", categoryInfoRoutes);
 app.use("/category", categoryRoutes);
 
 app.use("/customerRegister", customerRegisterRoutes);
@@ -93,7 +87,9 @@ app.use("/selectedSectionQuestion", selectedSectionQuestionRoutes);
 app.use("/selectedCategoryQuestion", selectedCategoryQuestionRoutes);
 app.use("/filteredSectionQuestion", filteredSectionQuestionRoutes);
 app.use("/createTemplate", createTemplateRoutes);
-// app.use("/section", sectionClient);
+app.use("/addQuestion", creategeneralQuestionsRoute);
+app.use("/generalQuestions", generalQuestionsRoute);
+
 app.use((req, res, next) => {
   const error = new Error("not Found in app.js line 46");
   error.status = 404;

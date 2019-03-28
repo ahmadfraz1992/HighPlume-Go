@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "../startup.css";
 import $ from "jquery";
 import axios from "axios";
+
 var cat_info_db = [];
 var questions_from_db = [];
 var userDataTemp = [];
@@ -32,7 +33,7 @@ class userTemplate extends Component {
     var Template_id = sessionStorage.getItem("userTempType");
 
     axios
-      .post("http://18.222.16.46/createCategory/getcategoryInfoTemplate", {
+      .post("http://localhost:6005/createCategory/getcategoryInfoTemplate", {
         params: {
           Template_id: Template_id
         }
@@ -46,27 +47,11 @@ class userTemplate extends Component {
         for (var i = 0; i < userDataTemp.length; i++) {
           var sec_ID = userDataTemp[i].section_id;
           axios
-            .post(
-              "http://18.222.16.46/savedSectionQuestion/getSelectedQuestions",
-              {
-                params: {
-                  sec_ID: sec_ID
-                }
+            .post("http://localhost:6005/allQuestions/getSelectedQuestions", {
+              params: {
+                sec_ID: sec_ID
               }
-              //     <div className="input-group-prepend">
-              //     <span className="input-group-text">Category Name</span>
-              //   </div>
-              //   <input
-              //     type="text"
-              //     className="form-control"
-              //     aria-label="Default"
-              //     aria-describedby="inputGroup-sizing-default"
-              //     name="c_name"
-              //     value={this.state.c_name}
-              //     onChange={this.onChange}
-              //   />
-              // </div>
-            )
+            })
             .then(response => {
               console.log(response.data.templateLocalData);
               debugger;

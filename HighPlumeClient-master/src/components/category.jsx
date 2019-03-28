@@ -2,13 +2,14 @@ import React, { Component } from "react";
 import "../App.css";
 import $ from "jquery";
 import axios from "axios";
-var categoryName = [];
+var categoryData = [];
 class category extends Component {
   constructor() {
     super();
     this.state = {
       cat_name: "",
-      cat_desc: ""
+      cat_desc: "",
+      cat_Id: ""
     };
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -21,23 +22,24 @@ class category extends Component {
     var divHtml = "";
 
     axios
-      .post("http://18.222.16.46/category/getCategoryInformationWithoutPara")
+      .post("http://localhost:6005/category/getCategoryInformationWithoutPara")
       .then(response => {
         console.log(response);
-        categoryName = response.data.categoryLocalData;
+        categoryData = response.data.categoryLocalData;
+        debugger;
         divHtml += "<thead  id='thead'>";
-        divHtml += " <th style='width:50%' id=''>Row</th>";
-        divHtml += " <th style='width:50%'>Category Name</th>";
+        divHtml += " <th style='width:20%' id=''>Category ID</th>";
+        divHtml += " <th style='width:70%'>Category Name</th>";
         divHtml += "</thead><tbody class=''>";
-        for (var i = 0; i < categoryName.length; i++) {
+        for (var i = 0; i < categoryData.length; i++) {
           divHtml += "<tr>";
-          divHtml += "<th style='width:50%'>" + i + "</th>";
+          divHtml += "<th style='width:20%'>" + categoryData[i]._id + "</th>";
           divHtml +=
-            "<td style='width:50%'>" + categoryName[i].cat_name + "</td>";
+            "<td style='width:70%'>" + categoryData[i].cat_name + "</td>";
           divHtml +=
-            "<td style='width:50%'><a   class='btn' style='border:none' id='btn2'><i class='fas fa-edit'></i></a></td>";
+            "<td style='width:5%'><a   class='btn' style='border:none' id='btn2'><i class='fas fa-edit'></i></a></td>";
           divHtml +=
-            "<td style='width:50%'><a  class='btn' style='border:none' id='btn3'><i class='fas fa-trash-alt'></i></a></td>";
+            "<td style='width:5%'><a  class='btn' style='border:none' id='btn3'><i class='fas fa-trash-alt'></i></a></td>";
           divHtml += "</tr>";
         }
         divHtml += "</tbody>";
@@ -53,8 +55,48 @@ class category extends Component {
               .text()
           );
           console.log(uid);
-          sessionStorage.setItem("category_name", uid);
+          sessionStorage.setItem("categoryName", uid);
           window.location.replace("/editCategory");
+        });
+        $("#table tbody").on("click", "#btn3", function() {
+          debugger;
+          var rowIndex = $(this).closest("tr");
+          var uid = $.trim(
+            $(rowIndex)
+              .find("td:eq(0)")
+              .text()
+          );
+          var cat_id = "";
+          for (var i = 0; i < categoryData.length; i++) {
+            if (uid === categoryData[i].cat_name) {
+              cat_id = categoryData[i]._id;
+            }
+          }
+          console.log(cat_id);
+
+          const deleteCategoryData = {
+            _id: cat_id
+          };
+          axios
+            .post(
+              "http://localhost:6005/category/deleteCategoryData",
+              deleteCategoryData
+            )
+            .then(response => {
+              console.log(response);
+            })
+            .catch(error => {
+              console.log(error.response);
+            });
+
+          var index = $(this)
+            .closest("tr")
+            .index();
+          console.log(uid);
+          console.log(index);
+          rowIndex = $(this)
+            .closest("tr")
+            .remove();
         });
       })
       .catch(error => {
@@ -66,10 +108,11 @@ class category extends Component {
   }
 
   render() {
-    //goToTop();
     return (
       <div className="promos">
-        <h1>List Of All Categories</h1>
+        <h1 style={{ textAlign: "center", marginTop: "2%" }}>
+          List Of All Categories
+        </h1>
         <nav className="main-menu">
           <ul>
             <li>
@@ -85,7 +128,7 @@ class category extends Component {
               <a href="/showQuestions" style={{ marginTop: "10%" }}>
                 <i class="fas fa-plus-square fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
-                  <b> Add Questions</b>
+                  <b> General Questions</b>
                 </span>
               </a>
             </li>
@@ -136,14 +179,14 @@ class category extends Component {
             </li>
           </ul>
         </nav>
-        <table
-          className="table table-light"
-          id="table"
-          style={{ marginTop: "6%" }}
-        />
         <button onClick={() => this.onSubmit()}>
           <img src="https://img.icons8.com/metro/26/000000/plus-math.png" />
         </button>
+        <table
+          className="table table-light"
+          id="table"
+          style={{ marginTop: "15px" }}
+        />
       </div>
     );
   }

@@ -32,68 +32,100 @@ class templateSelection extends Component {
   }
   openModal() {
     debugger;
-    var secdivHtml = "";
-    var checkedRows = [];
-    var checkedRowId = [];
-    $("#tbody tr").each(function() {
-      if (
-        $(this)
-          .find("input")
-          .is(":checked")
-      ) {
-        checkedRows.push(
-          $(this)
-            .find("td:eq(0)")
-            .text()
-        );
-        console.log(checkedRows);
-      }
-
-      if (
-        $(this)
-          .find("input")
-          .is(":checked")
-      ) {
-        checkedRowId.push(
-          $(this)
-            .find("th:eq(0)")
-            .text()
-        );
-        console.log(checkedRowId);
-      }
+    //<!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+        {/* <!-- Modal content--> */}
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+            <h4 class="modal-title">Modal Header</h4>
+          </div>
+          <div class="modal-body">
+            <p>Some text in the modal.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>;
+    $("#table tbody").on("click", "#btnModal", function() {
+      $("#myModal").modal("show");
+      // var rowIndex = $(this).closest("tr");
+      // var uid = $.trim(
+      //   $(rowIndex)
+      //     .find("td:eq(0)")
+      //     .text()
+      // );
+      // console.log(uid);
+      // sessionStorage.setItem("ModalData", uid);
+      // window.location.replace("/sectionEdit");
     });
-
-    debugger;
-    const Template_id = checkedRowId.toString();
-    parseInt(Template_id, 10);
-    axios
-      .post("http://18.222.16.46/createCategory/getcategoryInfoTemplate", {
-        params: {
-          Template_id: Template_id
-        }
-      })
-      .then(response => {
-        console.log(response);
-        debugger;
-        catDataTemp = response.data.categoryLocalData;
-        secdivHtml +=
-          "<h2 style='color:black;padding-top:10%' class=''>" +
-          checkedRows.toString() +
-          "</h2></br>";
-        for (var i = 0; i < catDataTemp.length; i++) {
-          secdivHtml +=
-            "<ul style='color:black;float:left' class='text-center'><li>" +
-            catDataTemp[i].section_name +
-            "</li><br/></ul>";
-        }
-        document.getElementById("modalSection").innerHTML = secdivHtml;
-      })
-      .catch(error => {
-        console.log(error.response);
-      });
-    this.setState({
-      visible: true
-    });
+    // var secdivHtml = "";
+    // var checkedRows = [];
+    // var checkedRowId = [];
+    // $("#tbody tr").each(function() {
+    //   if (
+    //     $(this)
+    //       .find("input")
+    //       .is(":checked")
+    //   ) {
+    //     checkedRows.push(
+    //       $(this)
+    //         .find("td:eq(0)")
+    //         .text()
+    //     );
+    //     console.log(checkedRows);
+    //   }
+    //   if (
+    //     $(this)
+    //       .find("input")
+    //       .is(":checked")
+    //   ) {
+    //     checkedRowId.push(
+    //       $(this)
+    //         .find("th:eq(0)")
+    //         .text()
+    //     );
+    //     console.log(checkedRowId);
+    //   }
+    // });
+    // debugger;
+    // const Template_id = checkedRowId.toString();
+    // parseInt(Template_id, 10);
+    // axios
+    //   .post("http://localhost:6005/createCategory/getcategoryInfoTemplate", {
+    //     params: {
+    //       Template_id: Template_id
+    //     }
+    //   })
+    //   .then(response => {
+    //     console.log(response);
+    //     debugger;
+    //     catDataTemp = response.data.categoryLocalData;
+    //     secdivHtml +=
+    //       "<h2 style='color:black;padding-top:10%' class=''>" +
+    //       checkedRows.toString() +
+    //       "</h2></br>";
+    //     for (var i = 0; i < catDataTemp.length; i++) {
+    //       secdivHtml +=
+    //         "<ul style='color:black;float:left' class='text-center'><li>" +
+    //         catDataTemp[i].section_name +
+    //         "</li><br/></ul>";
+    //     }
+    //     document.getElementById("modalSection").innerHTML = secdivHtml;
+    //   })
+    //   .catch(error => {
+    //     console.log(error.response);
+    //   });
+    // this.setState({
+    //   visible: true
+    // });
   }
 
   closeModal() {
@@ -111,24 +143,23 @@ class templateSelection extends Component {
 
   componentDidMount() {
     debugger;
-    var categoryInfo = [];
-    axios
-      .post("http://18.222.16.46/createcategory/getcategoryInfoWithoutPara")
-      .then(response => {
-        console.log(response);
-        categoryInfo = response.data.categoryLocalData;
-      })
-      .catch(err => {
-        console.log(err.response);
-      });
+    // var categoryInfo = [];
+    // axios
+    //   .post("http://localhost:6005/createcategory/getcategoryInfoWithoutPara")
+    //   .then(response => {
+    //     console.log(response);
+    //     categoryInfo = response.data.categoryLocalData;
+    //   })
+    //   .catch(err => {
+    //     console.log(err.response);
+    //   });
 
     axios
-      .post("http://18.222.16.46/category/getCategoryInformationWithoutPara")
+      .post("http://localhost:6005/category/getCategoryInformationWithoutPara")
       .then(response => {
         console.log(response);
         var divHtml = "";
-        userDataTemp = response.data.categoryLocalData;
-        var categorySections_name = [];
+        cat_info_db = response.data.categoryLocalData;
 
         // for (var j = 0; j < categoryInfo.length; j++) {
         //   if (categoryInfo[j].cat_id == userDataTemp[i]._id) {
@@ -142,25 +173,68 @@ class templateSelection extends Component {
 
         divHtml += " <th  style='width:25%'>Action</th>";
         divHtml += "</thead><tbody id='tbody'>";
-        for (var i = 0; i < userDataTemp.length; i++) {
+        for (var i = 0; i < cat_info_db.length; i++) {
           divHtml += "<tr>";
           divHtml +=
-            "<th id='th3'  style='width:25%' >" + userDataTemp[i]._id + "</th>";
+            "<th id='th3'  style='width:25%' >" + cat_info_db[i]._id + "</th>";
 
           divHtml +=
             " <td   style='width:25%' value=>" +
-            userDataTemp[i].cat_name +
+            cat_info_db[i].cat_name +
             "</td>";
 
           divHtml +=
-            "<td  style='width:25% '><input class='radio text-center' type='radio' id='radiobtn' style='display: inline-block;' name='radiobtn' value='' ></input></td>";
+            "<td style='width:25%'><button type='button' id='btnModal' class='btn btn-info btn-sm'>Show</button></td>";
+          // "<td style='width:25%'><a  class='btn' style='border:none' data-toggle='modal' href='btnModalID'><i class='fas fa-smile'></i>Show</a></td>";
 
           divHtml += "</tr>";
         }
 
         divHtml += "</tbody>";
         document.getElementById("tableSection").innerHTML = divHtml;
-        document.getElementById("reg1").innerHTML = divHtml;
+        // document.getElementById("reg1").innerHTML = divHtml;
+
+        // <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+          <div class="modal-dialog">
+            {/* <!-- Modal content--> */}
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                  &times;
+                </button>
+                <h4 class="modal-title">Modal Header</h4>
+              </div>
+              <div class="modal-body">
+                <p>Some text in the modal.</p>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>;
+        $("#tableSection tbody").on("click", "#btnModal", function() {
+          $("#myModal").modal();
+        });
+        // $("#table tbody").on("click", "#btnModal", function() {
+        //   $("#myModal").modal("show");
+        // var rowIndex = $(this).closest("tr");
+        // var uid = $.trim(
+        //   $(rowIndex)
+        //     .find("td:eq(0)")
+        //     .text()
+        // );
+        // console.log(uid);
+        // sessionStorage.setItem("ModalData", uid);
+        // window.location.replace("/sectionEdit");
+        //});
       })
       .catch(error => {
         console.log(error.response);
@@ -173,65 +247,61 @@ class templateSelection extends Component {
   }
 
   onSubmit() {
-    debugger;
-    var checkedRows = [];
-    var checkedRowId = [];
-    $("#tbody tr").each(function() {
-      if (
-        $(this)
-          .find("input")
-          .is(":checked")
-      ) {
-        checkedRows.push(
-          $(this)
-            .find("td:eq(0)")
-            .text()
-        );
-        console.log(checkedRows);
-      }
-
-      if (
-        $(this)
-          .find("input")
-          .is(":checked")
-      ) {
-        checkedRowId.push(
-          $(this)
-            .find("th:eq(0)")
-            .text()
-        );
-        console.log(checkedRowId);
-      }
-    });
-
-    debugger;
-    // for (var i = 0; i < checkedRows.length; i++) {
-    //   const userData = {
-    //     //checkedRows: checkedRows[i],
-    //     checkedRowId: checkedRowId[i]
-    //   };
-    const Template_id = checkedRowId.toString();
-    parseInt(Template_id, 10);
-    axios
-      .post("http://18.222.16.46/createCategory/getcategoryInfoTemplate", {
-        params: {
-          Template_id: Template_id
-        }
-      })
-      .then(response => {
-        console.log(response);
-        //this.props.history.push(`/admin`);
-        debugger;
-        catDataTemp = response.data.categoryLocalData;
-      })
-      .catch(error => {
-        console.log(error.response);
-      });
+    // debugger;
+    // var checkedRows = [];
+    // var checkedRowId = [];
+    // $("#tbody tr").each(function() {
+    //   if (
+    //     $(this)
+    //       .find("input")
+    //       .is(":checked")
+    //   ) {
+    //     checkedRows.push(
+    //       $(this)
+    //         .find("td:eq(0)")
+    //         .text()
+    //     );
+    //     console.log(checkedRows);
+    //   }
+    //   if (
+    //     $(this)
+    //       .find("input")
+    //       .is(":checked")
+    //   ) {
+    //     checkedRowId.push(
+    //       $(this)
+    //         .find("th:eq(0)")
+    //         .text()
+    //     );
+    //     console.log(checkedRowId);
+    //   }
+    // });
+    // debugger;
+    // // for (var i = 0; i < checkedRows.length; i++) {
+    // //   const userData = {
+    // //     //checkedRows: checkedRows[i],
+    // //     checkedRowId: checkedRowId[i]
+    // //   };
+    // const Template_id = checkedRowId.toString();
+    // // parseInt(Template_id, 10);
+    // axios
+    //   .post("http://localhost:6005/createCategory/getcategoryInfoTemplate", {
+    //     params: {
+    //       Template_id: Template_id
+    //     }
+    //   })
+    //   .then(response => {
+    //     console.log(response);
+    //     debugger;
+    //     catDataTemp = response.data.categoryLocalData;
+    //   })
+    //   .catch(error => {
+    //     console.log(error.response);
+    //   });
   }
   onSubmit1(e) {}
 
   render() {
-    //goToTop();
     return (
       <div className="container">
         <nav className="main-menu">
@@ -249,7 +319,7 @@ class templateSelection extends Component {
               <a href="/showQuestions" style={{ marginTop: "10%" }}>
                 <i class="fas fa-plus-square fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
-                  <b> Add Questions</b>
+                  <b> General Questions</b>
                 </span>
               </a>
             </li>
@@ -300,21 +370,21 @@ class templateSelection extends Component {
             </li>
           </ul>
         </nav>
-        <h1>Create A Template</h1>
+        <h1>List of all Templates</h1>
         <table
           className="table table-light"
           id="tableSection"
           style={{ marginTop: "5%" }}
         />
 
-        <button
+        {/* <button
           type="button"
           name="savebtn"
           className="btn btn-primary"
           onClick={() => this.openModal()}
         >
           Show
-        </button>
+        </button> */}
 
         <Modal
           visible={this.state.visible}

@@ -5,7 +5,6 @@ import $ from "jquery";
 import mul from "multiselect-two-sides";
 var questions_from_db = [];
 var section_info_db = [];
-var questions_from_db = [];
 var sectionQuestiondescription = [];
 var sectionQuestionId = [];
 var section_id = "";
@@ -30,19 +29,14 @@ class sectionEdit extends Component {
     $(function() {
       $("#undo_redo").multiselect();
     });
-    // $("#undo_redo").multiselect();
 
+    //Getting general questions From DB  and show into the lefside options
     axios
-      .post("http://18.222.16.46/sectionTemplate/getSectionInformation")
+      .post("http://localhost:6005/generalQuestions/getGeneralQuestions")
       .then(response => {
-        //console.log(response);
-        //  hideLoader();
-        questions_from_db = response.data.templateLocalData;
+        questions_from_db = response.data.generalQuestionsInfo;
         console.log(questions_from_db);
         console.log(questions_from_db.length);
-        //index = questions_from_db.length;
-
-        //console.log(index);
         var q_Options = "";
         for (var i = 0; i < questions_from_db.length; i++) {
           q_Options +=
@@ -58,38 +52,47 @@ class sectionEdit extends Component {
         console.log(error.response);
       });
 
-    var section_name = sessionStorage.getItem("sectionName");
-    console.log(section_name);
-    const userData = {
-      section_name: section_name
+    var sectionName = sessionStorage.getItem("sectionData");
+    console.log(sectionName);
+    const secData = {
+      section_name: sectionName
     };
     axios
-      .post("http://18.222.16.46/createSection/getSectionInformation", userData)
+      .post(
+        "http://localhost:6005/createSection/getSectionInformation",
+        secData
+      )
       .then(response => {
-        debugger;
         console.log(response);
+        debugger;
         this.setState({
           section_name: response.data.sectionLocalData[0].section_name,
           section_desc: response.data.sectionLocalData[0].section_desc
         });
         section_id = response.data.sectionLocalData[0]._id;
-        const userData1 = {
+        //sending section_id for getting the Saved Section Questions
+        const secData1 = {
           section_id: section_id
         };
-        debugger;
         axios
           .post(
-            "http://18.222.16.46/savedSectionQuestion/getSelectedQuestions",
-            userData1
+            "http://localhost:6005/savedSectionQuestion/getSelectedQuestions",
+            secData1
           )
           .then(response => {
             console.log(response);
             debugger;
-            var data = response.data.templateLocalData;
+            var sectionQuestions = response.data.sectionLocalData;
+            console.log(sectionQuestions);
+            console.log(sectionQuestions.length);
             var q_Options = "";
-            for (var i = 0; i < data.length; i++) {
+            for (var i = 0; i < sectionQuestions.length; i++) {
               q_Options +=
-                "<option value='" + i + "'>" + data[i].q_desc + "   </option>";
+                "<option value='" +
+                i +
+                "'>" +
+                sectionQuestions[i].q_desc +
+                "   </option>";
             }
             document.getElementById("undo_redo_to").innerHTML = q_Options;
           })
@@ -100,44 +103,9 @@ class sectionEdit extends Component {
       .catch(error => {
         console.log(error.response);
       });
-
-    debugger;
   }
   onSubmit(e) {
-    //  e.defaultprevent();
-    debugger;
-    const userData2 = {
-      section_id: section_id,
-      section_name: this.state.section_name,
-      section_desc: this.state.section_desc
-    };
-    axios
-      .post("http://18.222.16.46/createSection/updateSectionData", userData2)
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error.response);
-      });
-    const userData3 = {
-      section_id: section_id
-    };
-    axios
-      .post(
-        "http://18.222.16.46/savedSectionQuestion/deleteSavedQuestion",
-        userData3
-      )
-      .then(response => {
-        debugger;
-        console.log(response.data);
-
-        // hideLoader();
-      })
-      .catch(error => {
-        console.log(error.response);
-      });
     section_name = this.state.section_name;
-
     let index = 0;
     const userDataArr = [];
     $("#undo_redo_to > option").each(function() {
@@ -150,25 +118,20 @@ class sectionEdit extends Component {
         q_desc: $(this).text()
       };
       index = index + 1;
-      console.log(sectionQuestiondescription);
-      console.log(sectionQuestionId);
-      console.log(sectionQuestiondescription.length);
     });
 
-    debugger;
-    const test = { testUserData: userDataArr };
+    const secData2 = {
+      section_id: section_id,
+      section_name: section_name,
+      section_desc: this.state.section_desc,
+      questionsArray: userDataArr
+    };
+
     axios
-      .post(
-        "http://18.222.16.46/savedSectionQuestion/savedTemplateQuestions",
-        test
-      )
+      .post("http://localhost:6005/createSection/updateSectionData", secData2)
       .then(response => {
-        debugger;
-        console.log(response.data);
-
-        this.props.history.push(`/category`);
-
-        // hideLoader();
+        console.log(response);
+        this.props.history.push(`/section`);
       })
       .catch(error => {
         console.log(error.response);
@@ -182,7 +145,6 @@ class sectionEdit extends Component {
   }
 
   render() {
-    //goToTop();
     return (
       <div className="container">
         <nav className="main-menu">
@@ -200,7 +162,7 @@ class sectionEdit extends Component {
               <a href="/showQuestions" style={{ marginTop: "10%" }}>
                 <i class="fas fa-plus-square fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
-                  <b> Add Questions</b>
+                  <b> General Questions</b>
                 </span>
               </a>
             </li>
@@ -253,7 +215,7 @@ class sectionEdit extends Component {
         </nav>
         <h1>Edit Section</h1>
         <div className="row col-md-12">
-          <div className="input-group mb-3" style={{ paddingTop: "10%" }}>
+          <div className="input-group mb-3" style={{ paddingTop: "2%" }}>
             <div className="input-group-prepend">
               <span className="input-group-text">Section Name</span>
             </div>
@@ -312,7 +274,6 @@ class sectionEdit extends Component {
                 className="btn btn-block"
               >
                 <i className="fas fa-forward" />
-                {/* <i className="glyphicon glyphicon-forward" /> */}
               </button>
               <button
                 type="button"
@@ -320,7 +281,6 @@ class sectionEdit extends Component {
                 className="btn btn-block"
               >
                 <i className="fas fa-chevron-right" />
-                {/* <i className="glyphicon glyphicon-chevron-right" /> */}
               </button>
               <button
                 type="button"
@@ -328,7 +288,6 @@ class sectionEdit extends Component {
                 className="btn btn-block"
               >
                 <i className="fas fa-chevron-left" />
-                {/* <i className="glyphicon glyphicon-chevron-left" /> */}
               </button>
               <button
                 type="button"
@@ -336,7 +295,6 @@ class sectionEdit extends Component {
                 className="btn btn-block"
               >
                 <i className="fas fa-backward" />
-                {/* <i className="glyphicon glyphicon-backward" /> */}
               </button>
               <button
                 className="btn btn-primary"

@@ -4,9 +4,9 @@ import "../startup.css";
 import axios from "axios";
 import $ from "jquery";
 var data;
-var section_name = [];
 var section_id = [];
-var sectionName = [];
+var section_name = [];
+var sectionData = [];
 var cat_id = "";
 var questions_from_db = "";
 function showLoader() {
@@ -23,95 +23,137 @@ class editCategory extends Component {
       category_type: ""
     };
 
-    //this.onSubmit = this.onSubmit.bind(this);
-    this.onSubmit1 = this.onSubmit1.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    // this.onSubmit1 = this.onSubmit1.bind(this);
     this.onChange = this.onChange.bind(this);
   }
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
   componentDidMount() {
-    var cat_name = sessionStorage.getItem("category_name");
-    console.log(cat_name);
-    this.setState({ category_name: cat_name });
-    const tempData = {
+    var cat_name = sessionStorage.getItem("categoryName");
+    // this.setState({ category_name: cat_name });
+    const categortyData = {
       cat_name: cat_name
     };
     axios
       .post(
-        "http://18.222.16.46/category/getCategoryInformationWithPara",
-        tempData
+        "http://localhost:6005/category/getCategoryInformationWithPara",
+        categortyData
       )
       .then(response => {
         console.log(response);
-        //cat_id = response.data.categoryLocalData.cat_id;
+        this.setState({
+          category_name: response.data.categoryLocalData[0].cat_name,
+          category_type: response.data.categoryLocalData[0].cat_Type
+        });
+        cat_id = response.data.categoryLocalData[0]._id;
       })
       .catch(error => {
         console.log(error.response);
       });
     var divHtml = "";
-    //showLoader();
 
     axios
-      .post("http://18.222.16.46/createSection/getSectionInfo")
+      .post("http://localhost:6005/createSection/getSectionInfo")
       .then(response => {
         console.log(response);
-        sectionName = response.data.sectionLocalData;
+        sectionData = response.data.sectionLocalData;
         divHtml += "<thead  id='thead'>";
-        divHtml += " <th style='width:33%' id=''>Select</th>";
-        divHtml += " <th style='width:33%' id=''>Section_id</th>";
-        divHtml += " <th style='width:33%'>Section Name</th>";
+        divHtml += " <th style='width:20%' id=''>Select</th>";
+        divHtml += " <th style='width:20%' id=''>Section ID</th>";
+        divHtml += " <th style='width:60%'>Section Name</th>";
         divHtml += "</thead><tbody id='tbody'>";
-        for (var i = 0; i < sectionName.length; i++) {
+        for (var i = 0; i < sectionData.length; i++) {
           divHtml += "<tr>";
-          divHtml += "<th id='th3' style='width:33%' >";
-          // divHtml += "<label class='btn btn-success active'> ";
+          divHtml += "<th id='th3' style='width:20%' >";
           divHtml +=
             "<input  id='checkbox' class='form-check-input' type='checkbox' value=''></input>";
           divHtml += "</th>";
-          divHtml += "<td style='width:33%'>" + sectionName[i]._id + "</td>";
+          divHtml += "<td style='width:20%'>" + sectionData[i]._id + "</td>";
           divHtml +=
-            "<td style='width:33%'>" + sectionName[i].section_name + "</td>";
+            "<td style='width:60%'>" + sectionData[i].section_name + "</td>";
           divHtml += "</tr>";
         }
         divHtml += "</tbody>";
 
         document.getElementById("tableSection").innerHTML = divHtml;
-
-        // hideLoader();
       })
 
       .catch(error => {
         console.log(error.response);
       });
   }
-  onSubmit(e) {}
-  onSubmit1(e) {
-    const userData = {
-      question: this.state.question,
-      tooltip: this.state.tooltip
+  onSubmit(e) {
+    debugger;
+    section_id = [];
+    section_name = [];
+    var index = 0;
+    var index1 = 0;
+    var checkedRows = [];
+    var checkedRowId = [];
+
+    const updatedCategoryData = {
+      cat_id: cat_id,
+      cat_name: this.state.category_name,
+      cat_Type: this.state.category_type
     };
 
-    showLoader();
     axios
       .post(
-        "http://18.222.16.46/sectionTemplate/addSectionInformation",
-        userData
+        "http://localhost:6005/category/updateCategory",
+        updatedCategoryData
       )
       .then(response => {
-        debugger;
         console.log(response);
-        // alert("Your Question has been successfully saved.");
-        window.location.reload();
-        //this.props.history.push(`/sectionTemplate`);
-        hideLoader();
+
+        $("#tbody tr").each(function() {
+          if (
+            $(this)
+              .find("input")
+              .is(":checked")
+          ) {
+            checkedRows.push(
+              $(this)
+                .find("td:eq(1)")
+                .text()
+            );
+            console.log(checkedRows);
+            checkedRowId.push(
+              $(this)
+                .find("td:eq(0)")
+                .text()
+            );
+            console.log(checkedRowId);
+          }
+        });
+        debugger;
+        for (var i = 0; i < checkedRows.length; i++) {
+          const categoryInfoData = {
+            cat_id: cat_id,
+            checkedRows: checkedRows[i],
+            checkedRowId: checkedRowId[i]
+          };
+
+          axios
+            .post(
+              "http://localhost:6005/categoryInfo/updateCategoryInfo",
+              categoryInfoData
+            )
+            .then(response => {
+              console.log(response);
+              this.props.history.push(`/category`);
+            })
+            .catch(error => {
+              console.log(error.response);
+            });
+        }
       })
       .catch(error => {
         console.log(error.response);
       });
   }
   render() {
-    //goToTop();
     return (
       <div className="promos">
         <h1>Edit Category </h1>
@@ -195,7 +237,7 @@ class editCategory extends Component {
               className="form-control"
               aria-label="Default"
               aria-describedby="inputGroup-sizing-default"
-              name="c_name"
+              name="category_name"
               value={this.state.category_name}
               onChange={this.onChange}
             />
@@ -213,7 +255,7 @@ class editCategory extends Component {
                 className="form-control"
                 aria-label="Default"
                 aria-describedby="inputGroup-sizing-default1"
-                name="c_type"
+                name="category_type"
                 value={this.state.category_type}
                 onChange={this.onChange}
               />
@@ -222,7 +264,7 @@ class editCategory extends Component {
           <table
             className="table table-light"
             id="tableSection"
-            style={{ marginTop: "5%" }}
+            style={{ marginTop: "15px" }}
           />
         </div>
 

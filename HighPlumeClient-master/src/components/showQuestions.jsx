@@ -3,50 +3,40 @@ import "../startup.css";
 
 import axios from "axios";
 import $ from "jquery";
-var data;
 var questions_from_db = "";
-function showLoader() {
-  $(".overlay").show();
-}
-function hideLoader() {
-  $(".overlay").hide();
-}
+
 class showQuestions extends Component {
   constructor() {
     super();
     this.state = {
       question: ""
     };
-    //setTimeout(window.location.reload.bind(window.location), 250);
-    //this.onSubmit = this.onSubmit.bind(this);
-    this.onSubmit1 = this.onSubmit1.bind(this);
     this.onChange = this.onChange.bind(this);
   }
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
   componentDidMount() {
-    // window.location.reload(true);
-    //setTimeout(window.location.reload.bind(window.location), 250);
     var divHtml = "";
     axios
-      .post("http://18.222.16.46/sectionTemplate/getSectionInformation")
+      .post("http://localhost:6005/generalQuestions/getGeneralQuestions")
       .then(response => {
         console.log(response);
-        questions_from_db = response.data.templateLocalData;
+        questions_from_db = response.data.generalQuestionsInfo;
         divHtml += "<thead  id='thead'>";
-        divHtml += " <th style='width:50%' id=''>Row</th>";
-        divHtml += " <th style='width:50%'>Questions</th>";
+        divHtml += " <th style='width:20%' id=''>Question ID</th>";
+        divHtml += " <th style='width:70%'>General Questions</th>";
         divHtml += "</thead><tbody class=''>";
         for (var i = 0; i < questions_from_db.length; i++) {
           divHtml += "<tr>";
-          divHtml += "<th style='width:50%'>" + i + "</th>";
           divHtml +=
-            "<td style='width:50%'>" + questions_from_db[i].q_desc + "</td>";
+            "<th style='width:20px'>" + questions_from_db[i]._id + "</th>";
           divHtml +=
-            "<td style='width:50%'><a  class='btn' style='border:none' id='btn2'><i class='fas fa-edit'></i></a></td>";
+            "<td style='width:70%'>" + questions_from_db[i].q_desc + "</td>";
           divHtml +=
-            "<td style='width:50%'><a  class='btn' style='border:none' id='btn3'><i class='fas fa-trash-alt'></i></a></td>";
+            "<td style='width:5%'><a  class='btn' style='border:none' id='btn2'><i class='fas fa-edit'></i></a></td>";
+          divHtml +=
+            "<td style='width:5%'><a  class='btn' style='border:none' id='btn3'><i class='fas fa-trash-alt'></i></a></td>";
           divHtml += "</tr>";
         }
         divHtml += "</tbody>";
@@ -67,7 +57,6 @@ class showQuestions extends Component {
         });
 
         $("#table tbody").on("click", "#btn3", function() {
-          debugger;
           var rowIndex = $(this).closest("tr");
           var uid = $.trim(
             $(rowIndex)
@@ -77,54 +66,44 @@ class showQuestions extends Component {
           var q_id = "";
           console.log(uid);
           for (var i = 0; i < questions_from_db.length; i++) {
-            if (uid == questions_from_db[i].q_desc) {
+            if (uid === questions_from_db[i].q_desc) {
               q_id = questions_from_db[i]._id;
-              const tempData = {
-                q_id: q_id
-              };
-              axios
-                .post(
-                  "http://18.222.16.46/sectionTemplate/deleteQuestion",
-                  tempData
-                )
-                .then(response => {
-                  console.log(response);
-                })
-                .catch(error => {
-                  console.log(error.response);
-                });
-              rowIndex = $(this)
-                .closest("tr")
-                .remove();
             }
           }
           console.log(q_id);
+
+          const questionData = {
+            _id: q_id
+          };
+          axios
+            .post(
+              "http://localhost:6005/generalQuestions/deleteQuestion",
+              questionData
+            )
+            .then(response => {
+              console.log(response);
+            })
+            .catch(error => {
+              console.log(error.response);
+            });
+          var index = $(this)
+            .closest("tr")
+            .index();
+          console.log(uid);
+          console.log(index);
+          rowIndex = $(this)
+            .closest("tr")
+            .remove();
         });
       })
       .catch(error => {
         console.log(error.response);
       });
   }
-  onSubmit(e) {
-    // const userData = {
-    //   question: this.state.question
-
-    // };
-    // axios
-    //   .post("http://18.222.16.46/sectionTemplate/addSectionInformation", userData)
-    //   .then(response => {
-    //     console.log(response);
-    //   })
-    //   .catch(error => {
-    //     console.log(error.response);
-    //   });
+  onSubmiAddQuestion(e) {
     this.props.history.push(`/addQuestion`);
   }
-  onSubmit1(e) {
-    //this.props.history.push(`/sectionTemplate`);
-  }
   render() {
-    //goToTop();
     return (
       <div className="container">
         <nav className="main-menu">
@@ -142,7 +121,7 @@ class showQuestions extends Component {
               <a href="/showQuestions" style={{ marginTop: "10%" }}>
                 <i className="fas fa-plus-square fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
-                  <b> Add Questions</b>
+                  <b> General Questions</b>
                 </span>
               </a>
             </li>
@@ -193,17 +172,17 @@ class showQuestions extends Component {
             </li>
           </ul>
         </nav>
-        <h1 style={{ textAlign: "center", marginTop: "6%" }}>
+        <h1 style={{ textAlign: "center", marginTop: "2%" }}>
           General Questions
         </h1>
+        <button onClick={() => this.onSubmiAddQuestion()}>
+          <img src="https://img.icons8.com/metro/26/000000/plus-math.png" />
+        </button>
         <table
           className="table table-light"
           id="table"
-          style={{ marginTop: "5%" }}
+          style={{ marginTop: "15px" }}
         />
-        <button onClick={() => this.onSubmit()}>
-          <img src="https://img.icons8.com/metro/26/000000/plus-math.png" />
-        </button>
       </div>
     );
   }

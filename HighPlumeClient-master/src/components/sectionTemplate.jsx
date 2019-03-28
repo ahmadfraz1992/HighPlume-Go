@@ -27,7 +27,7 @@ class sectionTemplate extends Component {
     };
 
     this.onSubmit = this.onSubmit.bind(this);
-    this.onSubmit1 = this.onSubmit1.bind(this);
+    this.onSubmitAddQuestion = this.onSubmitAddQuestion.bind(this);
     this.onChange = this.onChange.bind(this);
   }
   onChange(e) {
@@ -38,45 +38,35 @@ class sectionTemplate extends Component {
       $("#undo_redo").multiselect();
     });
 
-    section_name = sessionStorage.getItem("section_name");
-    // this.setState({ section_name: section_name });
+    section_name = sessionStorage.getItem("sectionName");
     const userData = {
       section_name: section_name
     };
     axios
-      .post("http://18.222.16.46/createSection/getSectionInfo")
+      .post("http://localhost:6005/createSection/getSectionInfo")
       .then(response => {
         console.log(response);
         //section_id = response.data.sectionLocalData.section_id;
         section_info_db = response.data.sectionLocalData;
 
         for (var i = 0; i < section_info_db.length; i++) {
-          if (section_info_db[i].section_name == section_name) {
+          if (section_info_db[i].section_name === section_name) {
             this.setState({ section_name: section_name });
             section_id = section_info_db[i]._id;
             this.setState({ section_id: section_id });
           }
         }
-
-        // counter = cat_info_db.length;
-        // this.setState({ cat_name: cat_info_db[counter - 1].name });
-        // cat_id = cat_info_db[counter - 1]._id;
       })
       .catch(error => {
         console.log(error.response);
       });
-    //showLoader();
     axios
-      .post("http://18.222.16.46/sectionTemplate/getSectionInformation")
+      .post("http://localhost:6005/generalQuestions/getGeneralQuestions")
       .then(response => {
-        //console.log(response);
-        //  hideLoader();
-        questions_from_db = response.data.templateLocalData;
+        questions_from_db = response.data.generalQuestionsInfo;
         console.log(questions_from_db);
         console.log(questions_from_db.length);
-        //index = questions_from_db.length;
 
-        //console.log(index);
         var q_Options = "";
         for (var i = 0; i < questions_from_db.length; i++) {
           q_Options +=
@@ -115,14 +105,14 @@ class sectionTemplate extends Component {
     const test = { testUserData: userDataArr };
     axios
       .post(
-        "http://18.222.16.46/savedSectionQuestion/savedTemplateQuestions",
+        "http://localhost:6005/savedSectionQuestion/savedTemplateQuestions",
         test
       )
       .then(response => {
         debugger;
         console.log(response.data);
-        alert("Message");
         window.location.href = "http://localhost:3000/section";
+
         hideLoader();
       })
       .catch(error => {
@@ -131,22 +121,18 @@ class sectionTemplate extends Component {
     //}
   }
 
-  onSubmit1(e) {
+  onSubmitAddQuestion(e) {
     const userData = {
-      question: this.state.question,
+      q_desc: this.state.q_desc,
       tooltip: this.state.tooltip
     };
 
     showLoader();
     axios
-      .post(
-        "http://18.222.16.46/sectionTemplate/addSectionInformation",
-        userData
-      )
+      .post("http://localhost:6005/addQuestion/addGeneralQuestion", userData)
       .then(response => {
         debugger;
         console.log(response);
-        // alert("Your Question has been successfully saved.");
         window.location.reload();
         //this.props.history.push(`/sectionTemplate`);
         hideLoader();
@@ -157,7 +143,6 @@ class sectionTemplate extends Component {
   }
 
   render() {
-    //goToTop();
     return (
       <div className="promos">
         <div className="overlay">
@@ -178,7 +163,7 @@ class sectionTemplate extends Component {
               <a href="/showQuestions" style={{ marginTop: "10%" }}>
                 <i class="fas fa-plus-square fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
-                  <b> Add Questions</b>
+                  <b> General Questions</b>
                 </span>
               </a>
             </li>
@@ -229,10 +214,11 @@ class sectionTemplate extends Component {
             </li>
           </ul>
         </nav>
-        <h1 style={{}}>Create a Section Template</h1>
+        <h1 style={{ textAlign: "center", marginTop: "2%" }}>
+          Create a Section Template
+        </h1>
         <div className="container">
           <form>
-            {/* noValidate onSubmit={this.onSubmit} */}
             <div>
               <div
                 style={{ alignContent: "center" }}
@@ -269,38 +255,19 @@ class sectionTemplate extends Component {
                       />
                     </div>
                   </div>
-                  <div className="col-md-8 hidden">
-                    <div
-                      style={{ paddingLeft: "25%" }}
-                      className="input-group mb-3"
-                    >
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">Section ID</span>
-                      </div>
-                      <input
-                        type="text"
-                        className="form-control"
-                        aria-label="Default"
-                        aria-describedby="inputGroup-sizing-default"
-                        name="section_id"
-                        value={this.state.section_id}
-                        onChange={this.onChange}
-                      />
-                    </div>
-                  </div>
                   <div className="row col-md-12">
                     <div
                       style={{ paddingTop: "3%", float: "left" }}
                       className="col-md-5"
                     >
                       <select
-                        name="questions"
+                        name="q_desc"
                         id="undo_redo"
                         className="multiselect form-control"
                         size="20"
                         type="multiselect"
                         style={{ overflow: "scroll" }}
-                        value={this.state.questions}
+                        value={this.state.q_desc}
                         onChange={this.onChange}
                       />
                     </div>
@@ -314,7 +281,6 @@ class sectionTemplate extends Component {
                         className="btn btn-block"
                       >
                         <i className="fas fa-forward" />
-                        {/* <i className="glyphicon glyphicon-forward" /> */}
                       </button>
                       <button
                         type="button"
@@ -322,7 +288,6 @@ class sectionTemplate extends Component {
                         className="btn btn-block"
                       >
                         <i className="fas fa-chevron-right" />
-                        {/* <i className="glyphicon glyphicon-chevron-right" /> */}
                       </button>
                       <button
                         type="button"
@@ -330,7 +295,6 @@ class sectionTemplate extends Component {
                         className="btn btn-block"
                       >
                         <i className="fas fa-chevron-left" />
-                        {/* <i className="glyphicon glyphicon-chevron-left" /> */}
                       </button>
                       <button
                         type="button"
@@ -338,7 +302,6 @@ class sectionTemplate extends Component {
                         className="btn btn-block"
                       >
                         <i className="fas fa-backward" />
-                        {/* <i className="glyphicon glyphicon-backward" /> */}
                       </button>
                       <button
                         className="btn btn-primary"
@@ -388,8 +351,8 @@ class sectionTemplate extends Component {
                           className="form-control"
                           aria-label="Default"
                           aria-describedby="inputGroup-sizing-default"
-                          name="question"
-                          value={this.state.question}
+                          name="q_desc"
+                          value={this.state.q_desc}
                           onChange={this.onChange}
                         />
                       </div>
@@ -420,7 +383,7 @@ class sectionTemplate extends Component {
                     <button
                       type="button"
                       className="btn btn-primary"
-                      onClick={() => this.onSubmit1()}
+                      onClick={() => this.onSubmitAddQuestion()}
                     >
                       Save
                     </button>

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-// import { createBrowserHistory } from "react-router";
+import { Route, withRouter } from "react-router-dom";
 import Particles from "react-particles-js";
 import Navbar from "./components/Navbar";
 import Landing from "./components/Landing";
@@ -28,6 +27,7 @@ import sectionEdit from "./components/sectionEdit";
 import showQuestions from "./components/showQuestions";
 import editQuestion from "./components/editQuestion";
 import addQuestion from "./components/addQuestion";
+import editCategory from "./components/editCategory";
 //import selectedSectionTemplate from "./components/selectedSectionTemplate";
 
 const particleOpt = {
@@ -44,56 +44,51 @@ const particleOpt = {
 class App extends Component {
   render() {
     return (
-      <Router>
-        <div className="App">
-          <Navbar />
-          <Route exact path="/" component={Landing} />
-          <div className="container">
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/profile" component={Profile} />
-            <Route exact path="/startup" component={startup} />
-            <Route exact path="/apply4loan" component={apply4loan} />
-            <Route exact path="/admin" component={adminMain} />
-            <Route exact path="/selectQuestions" component={selectQuestions} />
-            <Route exact path="/addQuestions" component={addQuestions} />
-            <Route exact path="/categoryInfo" component={categoryInfo} /> */}
-            <Route exact path="/mainPage" component={mainPage} />
-            <Route exact path="/createSection" component={createSection} />
-            <Route exact path="/sectionTemplate" component={sectionTemplate} />
-            <Route exact path="/section" component={section} />
-            <Route exact path="/category" component={category} />
-            <Route exact path="/userTemplate" component={userTemplate} />
-            <Route exact path="/showQuestions" component={showQuestions} />
-            <Route exact path="/editQuestion" component={editQuestion} />
-            <Route exact path="/addQuestion" component={addQuestion} />
-            <Route
-              exact
-              path="/templateSelection"
-              component={templateSelection}
-            />
-            <Route
-              exact
-              path="/selectedCategorySection"
-              component={selectedCategorySection}
-            />
-            <Route
-              exact
-              path="/selectedCategorySectionQuestion"
-              component={selectedCategorySectionQuestion}
-            />
-            <Route
-              exact
-              path="/registerCustomer"
-              component={registerCustomer}
-            />
-            <Route exact path="/customerLogin" component={customerLogin} />
-            <Route exact path="/sectionEdit" component={sectionEdit} />
-          </div>
+      <div className="App">
+        <Navbar />
+        <Route exact path="/" component={Landing} />
+        <div className="container">
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/startup" component={startup} />
+          <Route exact path="/apply4loan" component={apply4loan} />
+          <Route exact path="/admin" component={adminMain} />
+          <Route exact path="/selectQuestions" component={selectQuestions} />
+          <Route exact path="/addQuestions" component={addQuestions} />
+          <Route exact path="/categoryInfo" component={categoryInfo} /> */}
+          <Route exact path="/mainPage" component={mainPage} />
+          <Route exact path="/createSection" component={createSection} />
+          <Route exact path="/sectionTemplate" component={sectionTemplate} />
+          <Route exact path="/section" component={section} />
+          <Route exact path="/category" component={category} />
+          <Route exact path="/userTemplate" component={userTemplate} />
+          <Route exact path="/showQuestions" component={showQuestions} />
+          <Route exact path="/editQuestion" component={editQuestion} />
+          <Route exact path="/addQuestion" component={addQuestion} />
+          <Route exact path="/editCategory" component={editCategory} />
+          <Route
+            exact
+            path="/templateSelection"
+            component={templateSelection}
+          />
+          <Route
+            exact
+            path="/selectedCategorySection"
+            component={selectedCategorySection}
+          />
+          <Route
+            exact
+            path="/selectedCategorySectionQuestion"
+            component={selectedCategorySectionQuestion}
+          />
+          <Route exact path="/registerCustomer" component={registerCustomer} />
+          <Route exact path="/customerLogin" component={customerLogin} />
+          <Route exact path="/sectionEdit" component={sectionEdit} />
         </div>
-      </Router>
+      </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

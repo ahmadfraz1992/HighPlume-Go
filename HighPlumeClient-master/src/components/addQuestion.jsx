@@ -2,41 +2,28 @@ import React, { Component } from "react";
 import "../startup.css";
 
 import axios from "axios";
-import $ from "jquery";
-var data;
-var q_id;
-var questions_from_db = "";
-function showLoader() {
-  $(".overlay").show();
-}
-function hideLoader() {
-  $(".overlay").hide();
-}
+
 class addQuestion extends Component {
   constructor() {
     super();
     this.state = {
-      question_desc: "",
+      q_desc: "",
       tooltip: ""
     };
-
-    this.onSubmit = this.onSubmit.bind(this);
-    //this.onSubmit1 = this.onSubmit1.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-  componentDidMount() {}
   onSubmit(e) {
     const userData = {
-      q_id: q_id,
-      question: this.state.question_desc,
+      q_desc: this.state.q_desc,
       tooltip: this.state.tooltip
     };
     axios
       .post(
-        "http://18.222.16.46/sectionTemplate/addSectionInformation",
+        "http://localhost:6005/generalQuestions/addGeneralQuestion",
         userData
       )
       .then(response => {
@@ -49,7 +36,6 @@ class addQuestion extends Component {
   }
 
   render() {
-    //goToTop();
     return (
       <div className="container">
         <nav className="main-menu">
@@ -67,7 +53,7 @@ class addQuestion extends Component {
               <a href="/showQuestions" style={{ marginTop: "10%" }}>
                 <i className="fas fa-plus-square fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
-                  <b> Add Questions</b>
+                  <b> General Questions</b>
                 </span>
               </a>
             </li>
@@ -118,12 +104,14 @@ class addQuestion extends Component {
             </li>
           </ul>
         </nav>
-        <h1 style={{ textAlign: "center", marginTop: "6%" }}>Add Question</h1>
+        <h1 style={{ textAlign: "center", marginTop: "6%" }}>
+          Add General Question
+        </h1>
         <div className="row col-md-12">
           <div className="input-group mb-3" style={{ paddingTop: "10%" }}>
             <div className="input-group-prepend">
               <span className="input-group-text" id="inputGroup-sizing-default">
-                Write your question here
+                Write question here
               </span>
             </div>
             <input
@@ -131,8 +119,8 @@ class addQuestion extends Component {
               className="form-control"
               aria-label="Default"
               aria-describedby="inputGroup-sizing-default"
-              name="question_desc"
-              value={this.state.question_desc}
+              name="q_desc"
+              value={this.state.q_desc}
               onChange={this.onChange}
             />
           </div>

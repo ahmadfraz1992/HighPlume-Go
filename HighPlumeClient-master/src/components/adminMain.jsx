@@ -24,7 +24,7 @@ class adminMain extends Component {
     var email = sessionStorage.getItem("userEmail");
 
     axios
-      .post("http://18.222.16.46/customerRegister/getCustomer")
+      .post("http://localhost:6005/customerRegister/getCustomer")
       .then(response => {
         console.log(response);
         companyName = response.data.customerLocalData;
@@ -76,7 +76,7 @@ class adminMain extends Component {
               <a href="/showQuestions" style={{ marginTop: "10%" }}>
                 <i class="fas fa-plus-square fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
-                  <b> Add Questions</b>
+                  <b> General Questions</b>
                 </span>
               </a>
             </li>

@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import "../App.css";
 import $ from "jquery";
 import axios from "axios";
-var sectionName = [];
+import { debug } from "util";
+var sectionData = [];
+var sec_id = "";
 class section extends Component {
   constructor() {
     super();
@@ -22,23 +24,23 @@ class section extends Component {
     var divHtml = "";
 
     axios
-      .post("http://18.222.16.46/createSection/getSectionInfo")
+      .post("http://localhost:6005/createSection/getSectionInfo")
       .then(response => {
         console.log(response);
-        sectionName = response.data.sectionLocalData;
+        sectionData = response.data.sectionLocalData;
         divHtml += "<thead  id='thead'>";
-        divHtml += " <th style='width:50%' id=''>Row</th>";
-        divHtml += " <th style='width:50%'>Section Name</th>";
+        divHtml += " <th style='width:20%' id=''>Section ID</th>";
+        divHtml += " <th style='width:70%'>Section Name</th>";
         divHtml += "</thead><tbody class=''>";
-        for (var i = 0; i < sectionName.length; i++) {
+        for (var i = 0; i < sectionData.length; i++) {
           divHtml += "<tr>";
-          divHtml += "<th style='width:50%'>" + i + "</th>";
+          divHtml += "<th style='width:20%'>" + sectionData[i]._id + "</th>";
           divHtml +=
-            "<td style='width:50%' >" + sectionName[i].section_name + "</td>";
+            "<td style='width:70%' >" + sectionData[i].section_name + "</td>";
           divHtml +=
-            "<td style='width:50%'><a   class='btn' style='border:none' id='btn2'><i class='fas fa-edit'></i></a></td>";
+            "<td style='width:5%'><a   class='btn' style='border:none' id='btn2'><i class='fas fa-edit'></i></a></td>";
           divHtml +=
-            "<td style='width:50%'><a  class='btn' style='border:none' id='btn3'><i class='fas fa-trash-alt'></i></a></td>";
+            "<td style='width:5%'><a  class='btn' style='border:none' id='btn3'><i class='fas fa-trash-alt'></i></a></td>";
           divHtml += "</tr>";
         }
         divHtml += "</tbody>";
@@ -46,7 +48,6 @@ class section extends Component {
         document.getElementById("table").innerHTML = divHtml;
 
         $("#table tbody").on("click", "#btn2", function() {
-          debugger;
           var rowIndex = $(this).closest("tr");
           var uid = $.trim(
             $(rowIndex)
@@ -54,7 +55,7 @@ class section extends Component {
               .text()
           );
           console.log(uid);
-          sessionStorage.setItem("sectionName", uid);
+          sessionStorage.setItem("sectionData", uid);
           window.location.replace("/sectionEdit");
         });
 
@@ -66,19 +67,22 @@ class section extends Component {
               .find("td:eq(0)")
               .text()
           );
-          var sec_id = "";
-          for (var i = 0; i < sectionName.length; i++) {
-            if (uid == sectionName[i].section_name) {
-              sec_id = sectionName[i]._id;
+
+          for (var i = 0; i < sectionData.length; i++) {
+            if (uid === sectionData[i].section_name) {
+              sec_id = sectionData[i]._id;
             }
           }
           console.log(sec_id);
 
-          const tempData = {
+          const deleteSectionData = {
             _id: sec_id
           };
           axios
-            .post("http://18.222.16.46/createSection/deleteSection", tempData)
+            .post(
+              "http://localhost:6005/createSection/deleteSection",
+              deleteSectionData
+            )
             .then(response => {
               console.log(response);
             })
@@ -94,7 +98,6 @@ class section extends Component {
           rowIndex = $(this)
             .closest("tr")
             .remove();
-          //window.location.replace("/sectionEdit");
         });
       })
       .catch(error => {
@@ -106,10 +109,11 @@ class section extends Component {
   }
 
   render() {
-    //goToTop();
     return (
       <div className="promos">
-        <h1>List Of All Sections</h1>
+        <h1 style={{ textAlign: "center", marginTop: "2%" }}>
+          List Of All Sections
+        </h1>
         <nav className="main-menu">
           <ul>
             <li>
@@ -125,7 +129,7 @@ class section extends Component {
               <a href="/showQuestions" style={{ marginTop: "10%" }}>
                 <i class="fas fa-plus-square fa-2x" />
                 <span className="nav-text" style={{ color: "white" }}>
-                  <b> Add Questions</b>
+                  <b> General Questions</b>
                 </span>
               </a>
             </li>
@@ -176,14 +180,14 @@ class section extends Component {
             </li>
           </ul>
         </nav>
-        <table
-          className="table table-light"
-          id="table"
-          style={{ marginTop: "10%" }}
-        />
         <button onClick={() => this.onSubmit()}>
           <img src="https://img.icons8.com/metro/26/000000/plus-math.png" />
         </button>
+        <table
+          className="table table-light"
+          id="table"
+          style={{ marginTop: "15px" }}
+        />
       </div>
     );
   }
